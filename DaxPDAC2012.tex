@@ -212,11 +212,55 @@
 \section{Introduction}
 \label{sec:Introduction}
 
+\noindent
 Whereas supercomputers throughout the terascale era were almost
 unilaterally built from general purpose CPU processors on distributed
 memory nodes with a message passing interface, with petascale computing we
 are seeing the emerging use of accelerators to meet the execution and
-computation requirements of modern leadership-class facilities.
+computation requirements of modern leadership-class facilities.  This trend
+was kicked off when the Roadrunner supercomputer, first to achieve a
+petaFLOP, was build with Cell BE processors\fix{cite}.  At the time,
+Roadrunner was an anomaly, but since then many high performance computers
+followed this example.  Today, \fix{X} out of 10 of the fastest supercomputers
+are also built with accelerator technology\fix{cite Top500?}.
+
+These accelerators represent a significant departure from how we most often
+perform parallel processing.  Computing on the previous generation of high
+performance computers involved partitioning data among distributed memory
+nodes and running independent processes that pass messages.  However,
+accelerators do not work well with such an approach.  Threads on
+accelerator may be grouped in SIMD ``warps,'' can have indeterminate
+scheduling, and may be incapable of direct message passing\fix{citeCUDA?}.
+Even on processors with more complete and independent cores, taking
+advantage of shared memory threads can have its
+advantages\lcite{Camp2010,Howison2011}.  Ultimately, our algorithms must
+exhibit a more ``pervasive parallelism'' comprising a marked increase in
+concurrency and careful data
+management\lcite{VisAnalysisExtremeScale,ExascaleRoadMap}. \fix{Check the
+  VisAnalysisExtremeScale reference (and similar
+  VisualizationandKnowledgeDiscovery in main collection).  I seem to be
+  mixing this up with Sean Ahern's report.}
+
+Another problem facing current research and development is the shifting
+landscape of the development environment.  The Cell BE processors (and
+associated compiler environment) comprising Roadrunner is already
+discontinued.  Instead, NVIDIA is aggressively pursing leadership in
+accelerator technology for scientific computation with Intel hot on its
+heels.  Several compiler technologies such as OpenMP, CUDA, Threaded
+Building Blocks, and OpenACC \fix{cite} also compete for multi-threaded
+programming.
+
+Our team is creating the Dax toolkit\lcite{Moreland2011:LDAV}, which seeks
+to provide a development framework for scientific data analysis and
+visualization algorithms for the next generation of high performance
+computers and beyond.  In this paper we document the following features.
+\begin{itemize}
+\item A general approach to data analysis and visualization algorithm
+  development that provides a pervasive parallelism without the complexity
+  of parallel programming.
+\item An adapter mechanism that encapsulates the change in behavior
+  required port the toolkit among devices and compilers.
+\end{itemize}
 
 \section{Previous Work}
 
@@ -228,12 +272,21 @@ Thrust.
 
 Parallel visualization.
 
-Dax.
+It should be noted that this paper does not cover message passing,
+distributed memory, or ``hybrid'' parallelism.  Although this is clearly
+important in high performance computing, the scope of this paper is only on
+the shared-memory, many-core parallelism part of this problem.  The
+techniques discussed here can be coupled with existing distributed memory
+approaches \fix{cite pipeline, DIY} to complete the hybrid parallelsm
+required to run concurrently across an entire machine.
 
 \section{Algorithmic Approach}
 
 \section{Device Adapter}
 
 \section{Generic Array Handle}
+
+\bibliographystyle{abbrv}
+\bibliography{DaxPDAC2012}
 
 \end{document}
