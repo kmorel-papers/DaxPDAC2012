@@ -193,10 +193,10 @@
 
 \begin{abstract}
   We are on the threshold of a transformative change in the basic
-  architecture of high performance computing.  The use of accelerator
-  processors, characterized by large core counts, shared but asymetric
+  architecture of high-performance computing.  The use of accelerator
+  processors, characterized by large core counts, shared but asymmetrical
   memory, and heavy thread loading, is quickly becoming the norm in high
-  performance computing.  These accelerators represent siginficant
+  performance computing.  These accelerators represent significant
   challenges in updating our existing base of software.  An intrinsic
   problem with this transition is a fundamental programming shift from
   message passing processes to much more fine thread scheduling with memory
@@ -220,7 +220,7 @@ are seeing the emerging use of accelerators to meet the execution and
 computation requirements of modern leadership-class facilities.  This trend
 was kicked off when the Roadrunner supercomputer, first to achieve a
 petaFLOP, was build with Cell BE processors\fix{cite}.  At the time,
-Roadrunner was an anomaly, but since then many high performance computers
+Roadrunner was an anomaly, but since then many high-performance computers
 followed this example.  Today, \fix{X} out of 10 of the fastest supercomputers
 are also built with accelerator technology\fix{cite Top500?}.
 
@@ -228,7 +228,7 @@ These accelerators represent a significant departure from how we most often
 perform parallel processing.  Computing on the previous generation of high
 performance computers involved partitioning data among distributed memory
 nodes and running independent processes that pass messages.  However,
-accelerators do not work well with such an approach.  Threads on
+accelerators do not work well with such an approach.  Threads on an
 accelerator may be grouped in SIMD ``warps,'' can have indeterminate
 scheduling, and may be incapable of direct message passing\fix{citeCUDA?}.
 Even on processors with more complete and independent cores, taking
@@ -252,7 +252,7 @@ programming.
 
 Our team is creating the Dax toolkit\lcite{Moreland2011:LDAV}, which seeks
 to provide a development framework for scientific data analysis and
-visualization algorithms for the next generation of high performance
+visualization algorithms for the next generation of high-performance
 computers and beyond.  In this paper we document the following features.
 \begin{itemize}
 \item A general approach to data analysis and visualization algorithm
@@ -278,7 +278,7 @@ intention of this approach is to write a sequential section of code that
 operates on a small section of data as a functional object, and then
 schedule this function in parallel independently on large vector
 components.  The technique can be thought of as a generalization of the map
-and reduce opeations in a MapReduce\lcite{MapReduce} framework.
+and reduce operations in a MapReduce\lcite{MapReduce} framework.
 
 A toolkit with similar goals of simplifying many-core parallel programming
 and cross-device porting is Thrust\lcite{Thrust}.  Thrust is a more general
@@ -291,10 +291,10 @@ as better specialize the data management.
 
 It should be noted that this paper does not cover message passing,
 distributed memory, or ``hybrid'' parallelism.  Although this is clearly
-important in high performance computing, the scope of this paper is only on
+important in high-performance computing, the scope of this paper is only on
 the shared-memory, many-core parallelism part of this problem.  The
 techniques discussed here can be coupled with existing distributed memory
-approaches \fix{Ahrens2000, DIY} to complete the hybrid parallelsm
+approaches \fix{Ahrens2000, DIY} to complete the hybrid parallelism
 required to run concurrently across an entire machine.
 
 \section{Algorithmic Approach}
