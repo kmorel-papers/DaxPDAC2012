@@ -183,7 +183,7 @@
 
 \title{Flexible Analysis Software for Emerging Architectures}
 
-\hyphenation{Para-View}
+\hyphenation{Para-View Map-Re-duce}
 
 \begin{document}
 
@@ -263,21 +263,38 @@ computers and beyond.  In this paper we document the following features.
 \end{itemize}
 
 \section{Previous Work}
+\label{sec:PreviousWork}
 
-Generic programming.
+\noindent
+To implement algorithms that are configurable with respect to operations,
+data structures, and processor idiosyncrasies, Dax relies on
+well-established techniques of generic programming\fix{cite}.  Generic
+programming uses C++ templates to direct the compiler to specialize a
+particular piece of code to alternate implementations.
 
-Functor-based exection.
+To maximize the amount of code that has no parallel dependencies, Dax
+employs a functor-based execution mode\fix{Cite Heurox or go away?}.  The
+intention of this approach is to write a sequential section of code that
+operates on a small section of data as a functional object, and then
+schedule this function in parallel independently on large vector
+components.  The technique can be thought of as a generalization of the map
+and reduce opeations in a MapReduce\lcite{MapReduce} framework.
 
-Thrust.
-
-Parallel visualization.
+A toolkit with similar goals of simplifying many-core parallel programming
+and cross-device porting is Thrust\lcite{Thrust}.  Thrust is a more general
+template library that provides a number of generic parallel algorithms.
+Thrust provides many of the desired attributes of Dax and is in fact used
+to implement many of them.  What differentiates Dax is the simplification
+and specialization of its interface.  We can provide generic algorithms and
+classes designed specifically for data analysis and visualization as well
+as better specialize the data management.
 
 It should be noted that this paper does not cover message passing,
 distributed memory, or ``hybrid'' parallelism.  Although this is clearly
 important in high performance computing, the scope of this paper is only on
 the shared-memory, many-core parallelism part of this problem.  The
 techniques discussed here can be coupled with existing distributed memory
-approaches \fix{cite pipeline, DIY} to complete the hybrid parallelsm
+approaches \fix{Ahrens2000, DIY} to complete the hybrid parallelsm
 required to run concurrently across an entire machine.
 
 \section{Algorithmic Approach}
