@@ -364,6 +364,44 @@ simultaneously.
 \label{sec:DeviceAdapter}
 
 \noindent
+As multiple vendors vie to provide accelerator-type processors, a great
+variance in the computer architecture exists, and we expect to encounter
+further changes in the near future.  Likewise, there exist multiple
+compiler environments and libraries for these devices.  The most popular of
+these include OpenMP, CUDA, and OpenCL (although the latter does not yet
+support C++ classes and templates).  These compiler technologies also vary
+from system to system.
+
+Consequently, we require our Dax toolkit to easily port from one system to
+the next.  At a minimum, we require a base language support, and the
+language we choose to support is C++.  The majority of the code in Dax is
+constrained to the standard C++ language constructs to minimize the
+specialization from one system to the next.
+
+\begin{figure}[htb]
+  \centering
+  \fix{Diagram here}
+  \caption{Diagram of the Dax framework.}
+  \label{fig:DaxDiagram}
+\end{figure}
+
+Figure~\ref{fig:DaxDiagram} provides an overall diagram of the Dax
+framework.  Dax is split into two environments, each with its own API.  The
+\keyterm{control environment} is used to describe data, interface with
+other libraries, and invoke parallel operations.  The control environment
+is designed to run in a single thread within a process.  Parallel
+algorithms are run in the \keyterm{execution environment}.  Worklets are
+built using the execution environment API, which constrains their
+operations to a safe region of data.
+
+The control and execution environments are logically equivalent to the host
+and device environments, respectively, in CUDA.  When compiling with CUDA,
+these environments mirror each other, but the same logical approach is
+taken when no such physical separation exists.
+
+In between these two environments sits the \keyterm{device adapter}.  The
+device adapter encapsulates all the specialized code required for running
+on a particular device with a particular compiler technology.
 
 \section{Generic Array Handle}
 \label{sec:GenericArrayHandle}
