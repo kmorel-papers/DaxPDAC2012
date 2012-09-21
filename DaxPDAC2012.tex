@@ -33,7 +33,7 @@
 % the body of your article BEFORE References or any Appendices.
 
 %\numberofauthors{12}
-\numberofauthors{1}
+\numberofauthors{2}
 
 % You can go ahead and credit any number of authors here,
 % e.g. one 'row of three' or two rows (consisting of one row of three
@@ -55,6 +55,8 @@
   \alignauthor Kenneth Moreland \\
   \myaffaddr{Sandia National Laboratories} \\
   \myemail{kmorel@sandia.gov}
+  %
+  \alignauthor Others
   %% %
   %% \alignauthor Ron Oldfield \\
   %% \myaffaddr{Sandia National Laboratories} \\
@@ -219,7 +221,7 @@ memory nodes with a message passing interface, with petascale computing we
 are seeing the emerging use of accelerators to meet the execution and
 computation requirements of modern leadership-class facilities.  This trend
 was kicked off when the Roadrunner supercomputer, first to achieve a
-petaFLOP, was build with Cell BE processors\fix{cite}.  At the time,
+petaFLOP, was built with Cell BE processors\fix{cite}.  At the time,
 Roadrunner was an anomaly, but since then many high-performance computers
 followed this example.  Today, \fix{X} out of 10 of the fastest supercomputers
 are also built with accelerator technology\fix{cite Top500?}.
@@ -273,12 +275,12 @@ programming uses C++ templates to direct the compiler to specialize a
 particular piece of code to alternate implementations.
 
 To maximize the amount of code that has no parallel dependencies, Dax
-employs a functor-based execution mode\fix{Cite Heurox or go away?}.  The
-intention of this approach is to write a sequential section of code that
-operates on a small section of data as a functional object, and then
-schedule this function in parallel independently on large vector
-components.  The technique can be thought of as a generalization of the map
-and reduce operations in a MapReduce\lcite{MapReduce} framework.
+employs a functor-based execution mode\lcite{Baker2010}.  The intention of
+this approach is to write a sequential section of code that operates on a
+small section of data as a functional object, and then schedule this
+function in parallel independently on large vector components.  The
+technique can be thought of as a generalization of the map and reduce
+operations in a MapReduce\lcite{MapReduce} framework.
 
 A toolkit with similar goals of simplifying many-core parallel programming
 and cross-device porting is Thrust\lcite{Thrust}.  Thrust is a more general
@@ -298,10 +300,92 @@ approaches \fix{Ahrens2000, DIY} to complete the hybrid parallelism
 required to run concurrently across an entire machine.
 
 \section{Algorithmic Approach}
+\label{sec:AlgorithmicApproach}
+
+\noindent
+Our basic approach to building algorithms is to build kernels of execution
+as functors.  These functors are designed to operate on a small element of
+data in a serial and stateless manner.  Because this kernel does work on a
+small amount of data, we call it a \keyterm{worklet}.  Around this concept,
+we build a system to concurrently schedule these worklets across multiple
+elements of a vector.
+
+This approach mirrors that of Baker \etal\scite{Baker2010}.  Both
+approaches use C++ templating to generically apply functors in parallel to
+vectors of data.  Where our work significantly differs from that of Baker's
+is in that we are more focused on the computational geometry problems
+related to scientific visualization and data analysis.
+
+Where Baker provides a simple mapping mechanism onto a vector, our system
+is designed to provide a variety of parallel scheduling operations.  These
+result in worklet types that get scheduled in different ways.  Each worklet
+type has a different set of capabilities.  The current set of worklet types
+are
+
+\begin{description}
+\item[Field Map] The Field Map is functionally equivalent to Baker's
+  functional approach.  It applies a worklet operation independently and in
+  parallel to each entry in one or more field arrays.
+\item[Cell Map] The Cell Map is similar to the Field Map in functionally
+  except that it takes the topology of the mesh into consideration.  The
+  worklet is applied to each cell in the mesh and has access to any data,
+  including point fields, on that cell.  This map enables operations that
+  must interpolate across the cell.
+\item[Topology Generator] The Topology Generator works similarly to the
+  Cell Map with the exception that instead of creating a new field, it
+  creates a new topology (that is, new cells).  One of the prerequisites of
+  invoking a Topology Generator is a classification of how many new cells
+  will be generated for each of the input cells.  This could be a constant
+  value (which would be typical for a tetrahedralization), or it might be
+  different for each input cell (which would be typical for operations like
+  threshold or contour) and captured in an array.
+\item[Point Reduction] A Point Reduction operation collects values
+  associated with a vertex in the mesh and performs an operation that
+  reduces to a single value.  Point Reduction has two primary uses.  First,
+  when topology generation creates new vertices, field and other
+  information can be reduced to the new point.  Second, a point reduction
+  can gather information about all of its incident cells, which can be used
+  to interpolate fields created with a Cell Map.
+\end{description}
+
+A common theme among all of the worklet types is their behavior of applying
+the same operation across many small elements.  This approach is well
+proven to be an efficient mechanism to drive many compute core
+simultaneously.
+
+\section{Schedule Metaprograms}
+\label{sec:ScheduleMetaprograms}
+
+\noindent
+\fix{This is where a description of the automatic glue code goes (if Robert
+  and Brad decide to put it in this paper).}
 
 \section{Device Adapter}
+\label{sec:DeviceAdapter}
+
+\noindent
 
 \section{Generic Array Handle}
+\label{sec:GenericArrayHandle}
+
+\noindent
+
+\section{Conclusion}
+\label{sec:Conclusion}
+
+\noindent
+
+\section{Acknowledgments}
+
+\noindent
+This work was supported in part by the DOE Office of Science, Advanced
+Scientific Computing Research, under award number 10-014707, program
+manager Lucy Nowell.
+
+Sandia National Laboratories is a multi-program laboratory operated by
+Sandia Corporation, a wholly owned subsidiary of Lockheed Martin
+Corporation, for the U.S. Department of Energy's National Nuclear Security
+Administration.
 
 \bibliographystyle{abbrv}
 \bibliography{DaxPDAC2012}
