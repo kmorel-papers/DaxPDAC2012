@@ -401,7 +401,33 @@ taken when no such physical separation exists.
 
 In between these two environments sits the \keyterm{device adapter}.  The
 device adapter encapsulates all the specialized code required for running
-on a particular device with a particular compiler technology.
+on a particular device with a particular compiler technology.  The
+functionality of the device adapter comprises to main parts: a collection
+of parallel algorithms and a module to transfer data between the control
+and execution environments.
+
+Each device adapter is expected to implement a set algorithms containing
+parallel for, scan, lower bounds (parallel find), stream compact, unique
+(remove duplicates).  This list of operations is similar to those suggested
+by Blelloch\fix{cite} and also a subset of those provided by the Thrust
+library\lcite{Thrust}.  Thrust itself provides a convenient implementation
+for device adapter because it itself is portable among devices.  However,
+the interface to the device adapter algorithms is independent of Thrust,
+and we have an example of a device adapter that can be built without
+Thrust.
+
+A device adapter also provides a module to handle the transfer of data
+between the control and execution environments.  Unlike other systems like
+CUDA and Thrust, which explicitly define separate arrays and copy between
+them, the Dax device adapter to allocate and copy data in one monolithic
+operation.  The advantage of this approach is that a device adapter for a
+system that shared memory between the two environments (such as with
+OpenMP) can perform shallow copies to share the data.
+
+With these basic device adapter facilities, we can build a support library
+for visualization algorithms.  Because the interface for the device adapter
+is independent of the implementation for each device, this support library
+can be built in such a way to be portable across many devices.
 
 \section{Generic Array Handle}
 \label{sec:GenericArrayHandle}
