@@ -2,12 +2,64 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2012-09-14 22:44:42 -0600 
+%% Created for kmorel at 2012-09-25 16:01:42 -0600 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@book{Blelloch1990,
+	Abstract = {Vector Models for Data-Parallel Computing describes a model of parallelism that extends and formalizes the Data-Parallel model on which the Connection Machine and other supercomputers are based. It presents many algorithms based on the model, ranging from graph algorithms to numerical algorithms, and argues that data-parallel models are not only practical and can be applied to a surprisingly wide variety of problems, they are also well suited for very-high-level languages and lead to a concise and clear description of algorithms and their complexity. Many of the author's ideas have been incorporated into the instruction set and into algorithms currently running on the Connection Machine.
+
+The book includes the definition of a parallel vector machine; an extensive description of the uses of the scan (also called parallel-prefix) operations; the introduction of segmented vector operations; parallel data structures for trees, graphs, and grids; many parallel computational-geometry, graph, numerical and sorting algorithms; techniques for compiling nested parallelism; a compiler for Paralation Lisp; and details on the implementation of the scan operations.},
+	Annote = {Seminal work on using scans and other basic parallel algorithms to build more specific data-parallel algorithms.},
+	Author = {Guy E. Blelloch},
+	Date-Added = {2012-09-25 16:01:39 -0600},
+	Date-Modified = {2012-09-25 16:01:39 -0600},
+	Note = {{ISBN}~0-262-02313-X},
+	Publisher = {MIT Press},
+	Title = {Vector Models for Data-Parallel Computing},
+	Year = {1990}}
+
+@inproceedings{Peterka2011,
+	Abstract = {We present a set of building blocks that provide scalable data movement capability to computational scientists and visualization researchers for writing their own parallel analysis. The set includes scalable tools for domain decomposition, process assignment, parallel I/O, global reduction, and local neighborhood communicationtasks that are common across many analysis applications. The global reduction is performed with a new algorithm, described in this paper, that efficiently merges blocks of analysis results into a smaller number of larger blocks. The merging is configurable in the number of blocks that are reduced in each round, the number of rounds, and the total number of resulting blocks. We highlight the use of our library in two analysis applications: parallel streamline generation and parallel Morse-Smale topological analysis. The first case uses an existing local neighborhood communication algorithm, whereas the latter uses the new merge algorithm.},
+	Annote = {Description of the Do-It-Yourself (DIY) library for building distributed-memory parallel scientific visualizaiton algorithms.},
+	Author = {Tom Peterka and Robert Ross and Wesley Kendall and Attila Gyulassy and Valerio Pascucci and Han-Wei Shen and Teng-Yok Lee and Abon Chaudhuri},
+	Booktitle = {Proceedings of Large Data Analysis and Visualization Symposium LDAV'11},
+	Date-Added = {2012-09-25 15:39:59 -0600},
+	Date-Modified = {2012-09-25 15:39:59 -0600},
+	Doi = {10.1109/LDAV.2011.6092324},
+	Month = {October},
+	Note = {{DOI}~10.1109/LDAV.2011.6092324},
+	Pages = {105--112},
+	Title = {Scalable Parallel Building Blocks for Custom Data Analysis},
+	Url = {http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6092324},
+	Year = {2011},
+	Bdsk-Url-1 = {http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6092324},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1109/LDAV.2011.6092324}}
+
+@misc{ScientificDiscoveryExascale2011,
+	Annote = {Workshop report on upcoming visualization challenges at exascale.  Big challenges include overcoming lower relative I/O rates through various more advanced I/O technologies such as in situ computations.  Also includes discussion on upcoming algorithmic challenges.},
+	Author = {Sean Ahern and Arie Shoshani and Kwan-Liu Ma and others},
+	Date-Added = {2012-09-25 15:24:30 -0600},
+	Date-Modified = {2012-09-25 15:24:30 -0600},
+	Howpublished = {Report from the DOE ASCR 2011 Workshop on Exascale Data Management, Analysis, and Visualization},
+	Month = {February},
+	Title = {Scientific Discovery at the Exascale},
+	Year = {2011}}
+
+@article{Henning2009,
+	Abstract = {In June 2008, a new supercomputer broke the petaflop/s performance barrier, more than doubling the computational performance of the next fastest machine on the Top500 Supercomputer list. This computer, named Roadrunner, is the result of an intensive collaboration between IBM and Los Alamos National Laboratory, where it's now located. Aside from its performance, Roadrunner has two distinguishing characteristics: a very good power/performance ratio and a ``hybrid'' computer architecture that mixes several types of processors. By November 2008, the traditionally architected Jaguar computer at Oak Ridge National Laboratory was tied with Roadrunner in the performance race, but it requires almost 2.8 times the electric power of Roadrunner. This difference translates into millions of dollars per year in operating costs.},
+	Annote = {A high-level article introducing the roadrunner petaflop supercomputer at Los Alamos National Laboraotry (LANL).  It describes the basic architecture of the nodes including the use of the IBM Cell BE (Broadband Engine).},
+	Author = {Paul Henning and Andrew B. {White Jr.}},
+	Date-Added = {2012-09-25 14:51:30 -0600},
+	Date-Modified = {2012-09-25 14:51:30 -0600},
+	Journal = {Computing in Science \& Engineering},
+	Month = {July/August},
+	Pages = {91--95},
+	Title = {Trailblazing with {Roadrunner}},
+	Year = {2009}}
 
 @inproceedings{Baker2010,
 	Abstract = {Multicore nodes have become ubiquitous in just a few years. At the same time, writing portable parallel software for multicore nodes is extremely challenging. Widely available programming models such as OpenMP and Pthreads are not useful for devices such as graphics cards, and more flexible programming models such as RapidMind are only available commercially. OpenCL represents the first truly portable standard, but its availability is limited. In the presence of such transition, we have developed a minimal application programming interface (API) for multicore nodes that allows us to write portable parallel linear algebra software that can use any of the aforementioned programming models and any future standard models. We utilize C++ template meta-programming to enable users to write parallel kernels that can be executed on a variety of node types, including Cell, GPUs and multicore CPUs. The support for a parallel node is provided by implementing a Node object, according to the requirements specified by the API. This ability to provide custom support for particular node types gives developers a level of control not allowed by the current slate of proprietary parallel programming APIs. We demonstrate implementations of the API for a simple vector dot-product on sequential CPU, multicore CPU and GPU nodes.},

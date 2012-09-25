@@ -131,10 +131,13 @@ memory nodes with a message passing interface, with petascale computing we
 are seeing the emerging use of accelerators to meet the execution and
 computation requirements of modern leadership-class facilities.  This trend
 was kicked off when the Roadrunner supercomputer, first to achieve a
-petaFLOP, was built with Cell BE processors\fix{cite}.  At the time,
-Roadrunner was an anomaly, but since then many high-performance computers
-followed this example.  Today, \fix{X} out of 10 of the fastest supercomputers
-are also built with accelerator technology\fix{cite Top500?}.
+petaFLOP, was built with Cell BE processors\lcite{Henning2009}.  At the
+time, Roadrunner was an anomaly, but since then many high-performance
+computers followed this example.  Today, over 10\% of the Top 500
+supercomputers incorporate accelerators, and that number is
+growing.\footnote{According to the $39^{\mathrm{th}}$ edition of the Top500
+  list of the world's supercomputers released June 18, 2012.  Available from
+  \href{http://www.top500.org}{http://www.top500.org}.}
 
 These accelerators represent a significant departure from how we most often
 perform parallel processing.  Computing on the previous generation of high
@@ -148,10 +151,7 @@ advantage of shared memory threads can have its
 advantages\lcite{Camp2010,Howison2011}.  Ultimately, our algorithms must
 exhibit a more ``pervasive parallelism'' comprising a marked increase in
 concurrency and careful data
-management\lcite{VisAnalysisExtremeScale,ExascaleRoadMap}. \fix{Check the
-  VisAnalysisExtremeScale reference (and similar
-  VisualizationandKnowledgeDiscovery in main collection).  I seem to be
-  mixing this up with Sean Ahern's report.}
+management\lcite{ScientificDiscoveryExascale2011,ExascaleRoadMap}.
 
 Another problem facing current research and development is the shifting
 landscape of the development environment.  The Cell BE processors (and
@@ -159,8 +159,7 @@ associated compiler environment) comprising Roadrunner is already
 discontinued.  Instead, NVIDIA is aggressively pursing leadership in
 accelerator technology for scientific computation with Intel hot on its
 heels.  Several compiler technologies such as OpenMP, CUDA, Threaded
-Building Blocks, and OpenACC \fix{cite} also compete for multi-threaded
-programming.
+Building Blocks, and OpenACC also compete for multi-threaded programming.
 
 Our team is creating the Dax toolkit\lcite{Moreland2011:LDAV}, which seeks
 to provide a development framework for scientific data analysis and
@@ -206,7 +205,7 @@ distributed memory, or ``hybrid'' parallelism.  Although this is clearly
 important in high-performance computing, the scope of this paper is only on
 the shared-memory, many-core parallelism part of this problem.  The
 techniques discussed here can be coupled with existing distributed memory
-approaches \fix{Ahrens2000, DIY} to complete the hybrid parallelism
+approaches\lcite{Ahrens2000,Peterka2011} to complete the hybrid parallelism
 required to run concurrently across an entire machine.
 
 \section{Algorithmic Approach}
@@ -319,12 +318,12 @@ and execution environments.
 Each device adapter is expected to implement a set algorithms containing
 parallel for, scan, lower bounds (parallel find), stream compact, unique
 (remove duplicates).  This list of operations is similar to those suggested
-by Blelloch\fix{cite} and also a subset of those provided by the Thrust
-library\lcite{Thrust}.  Thrust itself provides a convenient implementation
-for device adapter because it itself is portable among devices.  However,
-the interface to the device adapter algorithms is independent of Thrust,
-and we have an example of a device adapter that can be built without
-Thrust.
+by Blelloch\scite{Blelloch1990} and also a subset of those provided by the
+Thrust library\lcite{Thrust}.  Thrust itself provides a convenient
+implementation for device adapter because it itself is portable among
+devices.  However, the interface to the device adapter algorithms is
+independent of Thrust, and we have an example of a device adapter that can
+be built without Thrust.
 
 A device adapter also provides a module to handle the transfer of data
 between the control and execution environments.  Unlike other systems like
@@ -348,7 +347,7 @@ Dax is an \keyterm{array handle}.  The array handle acts like a smart
 pointer to the data to manage its resource usage.  Array handle objects
 maintain a reference count of how many instances point to the same array.
 
-Array handle objects can also allocate and deallocate data as necessary.
+Array handle objects can also allocate and de-allocate data as necessary.
 For example, when an array handle is used to store the output of an
 algorithm, Dax will automatically allocate data in the array to store the
 appropriate amount of data.
@@ -358,15 +357,37 @@ environment.  When an array handle is used as input to an algorithm, the
 array handle automatically copies data to the execution environment.  This
 is done using the data transfer module of the device adapter discussed in
 Section~\ref{sec:DeviceAdapter}.  As described previously, if the control
-and excution environments can share data, then this data is not physically
+and execution environments can share data, then this data is not physically
 copied but rather shared.  The array handle also maintains where data
 resides to avoid unnecessary copies.  That is, if data is needed in the
-executio environment and is already available in the execution environment,
+execution environment and is already available in the execution environment,
 no copy will be made.  To help applications manage limited memory, the
 array handle allows applications to free memory either in the execution
 environment or in both environments.
 
-Implicit arrays, containers.
+In addition to adapting to various device memory spaces with the device
+adapter, the array handle can also adapt to memory layout in the control
+environment.  This is an important technique when applying Dax algorithms
+to data defined in other library spaces.  For example, some systems may
+define an array of coordinates as a single array with each entry containing
+3 coordinates (an array of structures) whereas another might define the
+same data with three arrays, each containing a single coordinate (a
+structure of arrays).  Rather than copy this data to some canonical
+structure, the array handle uses generic access to adapt to any layout.
+
+This generic access is achieved through a \keyterm{container} object.  The
+container provides an encapsulated interface around the data so that any
+necessary strides or offsets may be handled internally.
+
+One interesting consequence of using a generic container object to manage
+data within an array handle is that the container can be define
+functionally rather than point to data stored in physical memory.  Thus,
+implicit array handles are easily created by adapting to functional
+containers.  For example, the point coordinates of a uniform rectilinear
+grid are implicit based on the topological position of the point.  Thus,
+the point coordinates for uniform rectilinear grids can be implemented as
+an implicit array with the same interface as explicit arrays (where
+unstructured grid points would be stored).
 
 \section{Results}
 
