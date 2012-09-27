@@ -399,9 +399,25 @@ unstructured grid points would be stored).
   implementation.  We could also compare against PISTON as an
   implementation without our introduced overhead.}
 
-\fix{The problem, however, is that we still have not fixed the problem of
-  copying implicit arrays in CUDA.  Do we have time to resolve that and run
-  the tests?}
+\begin{itemize}
+\item Data: supernova.  $432^3$ floating point.
+\item Dual Quad-Core Intel Xeon processors (8 cores total), 32 GB system memory.
+\item 1 NVIDA Quadro 4000, 2 GB memory.
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/SupernovaThreshold}
+  \caption{Supernova dataset used in threshold timing experiments.}
+  \label{fig:Supernova}
+\end{figure}
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=\linewidth]{images/ThresholdTiming}
+  \caption{Timing results for threshold operation.}
+  \label{fig:Timing}
+\end{figure*}
 
 \section{Conclusion}
 \label{sec:Conclusion}

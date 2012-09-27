@@ -1,0 +1,31 @@
+Implementation,Seconds
+Dax Cuda,0.696792
+Dax Cuda,0.678376
+Dax Cuda,0.680509
+Dax Cuda,0.673366
+Dax Cuda,0.679539
+Dax Cuda,0.679142
+Dax Cuda,0.674112
+Dax Cuda,0.680753
+Dax OpenMP 8,4.25776
+Dax OpenMP 8,4.24498
+Dax OpenMP 8,4.29061
+Dax OpenMP 8,4.25563
+Dax OpenMP 8,4.25885
+Dax OpenMP 8,4.34222
+Dax OpenMP 8,4.35847
+Dax OpenMP 8,4.27438
+Dax Serial,9.80968
+Dax Serial,9.85124
+Dax Serial,9.81389
+Dax Serial,9.97442
+Dax Serial,9.82676
+Dax OpenMP 1,12.9274
+Dax OpenMP 1,12.9467
+Dax OpenMP 1,12.9098
+Dax OpenMP 1,12.9633
+Dax OpenMP 1,12.9325
+VTK Serial,19.2183
+VTK Serial,19.7117
+VTK Serial,19.3691
+VTK Serial,19.4321
