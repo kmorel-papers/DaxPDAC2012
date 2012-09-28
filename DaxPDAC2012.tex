@@ -76,6 +76,7 @@
 \definecolor{black}{rgb}{0,0,0}
 \definecolor{ltcyan}{rgb}{.75,1,1}
 \definecolor{red}{rgb}{1,0,0}
+\definecolor{gray}{rgb}{.6,.6,.6}
 
 % Cite commands I use to abstract away the different ways to reference an
 % entry in the bibliography (superscripts, numbers, dates, or author
@@ -89,6 +90,13 @@
 \newcommand{\etal}{et al.}
 
 \newcommand*{\keyterm}[1]{\emph{#1}}
+
+% Code highlighting markup.
+\newcommand{\Ck}[1]{{#1}} % Language keyword
+\newcommand{\Ci}[1]{{\textbf{#1}}} % Dax-provided identifier
+\newcommand{\CiDesc}{\Ci{Bold}}
+\newcommand{\Cu}[1]{{\color{gray}\textbf{#1}}} % User-provided identifier
+\newcommand{\Code}[1]{{\small\texttt{#1}}}
 
 \newcommand{\fix}[1]{{\color{red}\textsc{[#1]}}}
 
@@ -403,13 +411,61 @@ the point coordinates for uniform rectilinear grids can be implemented as
 an implicit array with the same interface as explicit arrays (where
 unstructured grid points would be stored).
 
+%-----------------------------------------------------------------------------
 \section{Schedule Metaprograms}
 \label{sec:ScheduleMetaprograms}
 
 \noindent
-\fix{This is where a description of the automatic glue code goes (if Robert
-  and Brad decide to put it in this paper).}
+%
+Dax aims to relieve its users from the details of scheduling work in
+the execution environment.
+%
+We ask the author of a worklet only to specify declarative meta-data
+describing its interfaces in the control and execution environments.
 
+%\begin{figure*}\centering\begin{minipage}[c]{0.6\textwidth}
+\begin{figure}[ht]\centering
+  \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
+                   fontfamily=tt, fontsize=\scriptsize,
+                   numbers=left, numbersep=2pt]
+    \Ck{struct} \Cu{Sine}: \Ck{public} \Ci{dax::exec::WorkletMapField} \{ \label{fig:Sine.struct}
+      \Ck{typedef} \Ck{void} \Cu{ControlSignature}(\Ci{Field}(\Ci{In}), \Ci{Field}(\Ci{Out})); \label{fig:Sine.cont}
+      \Ck{typedef} \Ci{\_2} \Cu{ExecutionSignature}(\Ci{\_1}); \label{fig:Sine.exec}
+      \Ck{template} <\Ck{class} \Cu{T}>
+      \Ci{DAX\_EXEC\_EXPORT} \Cu{T} \Ck{operator()}(\Cu{T} \Cu{v}) \Ck{const} \{ \label{fig:Sine.op}
+        \Ck{return} \Ck{sin}(\Cu{v});
+      \}
+    \};
+  \end{Verbatim}
+  \caption{Example Worklet}\label{fig:Sine}
+\end{figure}
+%\end{minipage}\end{figure*}
+
+Figure~\ref{fig:Sine} shows a sample Dax worklet definition
+(Dax-provided names shown as \Code{\CiDesc} text).
+%
+A worklet is a C++ functor whose class type derives from the worklet
+type (line~\ref{fig:Sine.struct}).
+%
+In this example \Code{WorkletMapField} corresponds to the ``Field
+Map'' worklet type discussed in Section~\ref{sec:AlgorithmicApproach}.
+%
+A worklet class must provide two typedefs and a function call operator
+implementing the functor.
+%
+The \Code{ControlSignature} specifies how one must invoke the
+worklet from the control environment (line~\ref{fig:Sine.cont}).
+%
+The \Code{ExecutionSignature} specifies how Dax should invoke the
+worklet function call operator in the execution environment
+(line~\ref{fig:Sine.exec}).
+%
+The function call \Code{operator()} provides the implementation for
+the execution environment (line~\ref{fig:Sine.op}) so it is marked
+with \Code{DAX\_EXEC\_EXPORT} (like \Code{\_\_device\_\_} for
+CUDA).
+
+%-----------------------------------------------------------------------------
 \section{Results}
 
 \noindent
