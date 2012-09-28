@@ -6,16 +6,35 @@
 
 \documentclass[conference]{IEEEtran}
 
+%% \author{
+%%   \IEEEauthorblockN{Kenneth~Moreland}
+%%   \IEEEauthorblockA{Sandia National Laboratories\\
+%%     Albuquerque, NM 87185-1326\\
+%%     Email: kmorel@sandia.gov}
+%%   \and
+%%   \IEEEauthorblockN{Others}
+%%   \IEEEauthorblockA{Cool Group\\
+%%     Somewhere, WQ 12341\\
+%%     Email: person@myspace.com}
+%% }
+
 \author{
-  \IEEEauthorblockN{Kenneth~Moreland}
-  \IEEEauthorblockA{Sandia National Laboratories\\
-    Albuquerque, NM 87185-1326\\
-    Email: kmorel@sandia.gov}
-  \and
-  \IEEEauthorblockN{Others}
-  \IEEEauthorblockA{Cool Group\\
-    Somewhere, WQ 12341\\
-    Email: person@myspace.com}
+  \IEEEauthorblockN{
+    Kenneth~Moreland\IEEEauthorrefmark{1},
+    Brad~King\IEEEauthorrefmark{2},
+    Robert~Maynard\IEEEauthorrefmark{2}, and
+    Kwan-Liu~Ma\IEEEauthorrefmark{3}
+  }
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{1}Sandia National Laboratories,
+    Albuquerque, NM 87185-1326}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{2}Kitware, Inc.,
+    Clifton Park, NY 12065}
+  \IEEEauthorblockA{
+    \IEEEauthorrefmark{3}Computer Science Department,
+    University of California at Davis,
+    Davis, CA 95616-8562}
 }
 
 % for over three affiliations, or if they all won't fit within the width
@@ -264,13 +283,6 @@ the same operation across many small elements.  This approach is well
 proven to be an efficient mechanism to drive many compute core
 simultaneously.
 
-\section{Schedule Metaprograms}
-\label{sec:ScheduleMetaprograms}
-
-\noindent
-\fix{This is where a description of the automatic glue code goes (if Robert
-  and Brad decide to put it in this paper).}
-
 \section{Device Adapter}
 \label{sec:DeviceAdapter}
 
@@ -391,15 +403,16 @@ the point coordinates for uniform rectilinear grids can be implemented as
 an implicit array with the same interface as explicit arrays (where
 unstructured grid points would be stored).
 
+\section{Schedule Metaprograms}
+\label{sec:ScheduleMetaprograms}
+
+\noindent
+\fix{This is where a description of the automatic glue code goes (if Robert
+  and Brad decide to put it in this paper).}
+
 \section{Results}
 
 \noindent
-\fix{To round this paper out, we really should have some evidence that our
-  proposed method is worthwhile.  I think a straightforward thing to do is
-  to run an instance of one of our algorithms (probably Threshold).  We
-  could do our standard comparison among processes and the VTK
-  implementation.  We could also compare against PISTON as an
-  implementation without our introduced overhead.}
 
 \begin{itemize}
 \item Data: supernova.  $432^3$ floating point.
