@@ -413,14 +413,13 @@ unstructured grid points would be stored).
 \section{Results}
 
 \noindent
-
-\begin{itemize}
-\item Data: supernova.  $432^3$ floating point.
-\item Threshold: 0.07 and above.
-\item Resulting mesh: 3,245,512 cells, 4,090,196 points
-\item Dual Quad-Core Intel Xeon processors (8 cores total), 32 GB system memory.
-\item 1 NVIDA Quadro 4000, 2 GB memory.
-\end{itemize}
+A common problem introduced when adding layers of abstraction to a
+programming interface is the reduction in efficiency with the algorithms.
+To demonstrate that the added overhead of our generic programming is
+minimal, we perform timing measurements for threshold, a non-trivial
+algorithm that produces a new topology.  Our implementation of threshold
+produces a compact mesh with unused vertices removed and connectivity
+information intact.
 
 \begin{figure}[ht]
   \centering
@@ -435,6 +434,49 @@ unstructured grid points would be stored).
   \caption{Timing results for threshold operation.}
   \label{fig:Timing}
 \end{figure*}
+
+Our threshold algorithm in all instances is run on a large regular mesh
+from a supernova simulation made available by John Blondin at the North
+Carolina State University and Anthony Mezzacappa of Oak Ridge National
+Laboratory\lcite{Blondin2003}.  The data comprises a uniform grid of
+$432^3$ points with a 32-bit floating point field value associated with
+each point.  The result of our threshold algorithm contains 3,245,512 cells
+and 4,090,196.  All runs are performed on a Mac desktop with dual Quad-Core
+Intel Xeon processors (8 cores total) and 32 GB of system memory.  The
+system contains an NVIDIA Quadro 4000 with 2 GB of memory on which CUDA
+tests were run.
+
+As described in Section~\ref{sec:DeviceAdapter}, Dax's device adapter
+mechanism makes it easy to port the toolkit among different execution
+environments.  We currently implement three device adapters: a serial
+execution that uses the C++ standard template library's algorithms, an
+OpenMP execution on multiple CPU cores that uses the Thrust library's
+algorithms, and a CUDA execution on NVIDIA GPUs that also uses Thrust.  We
+run our Dax threshold algorithm using all three of these device adapters
+for comparison purposes.  Because our threshold operation in Dax produces
+results that are isomorphic to those produced by VTK, we also run our
+algorithm using the VTK filter.  The timing results of all these runs are
+summarized in Figure~\ref{fig:Timing}.
+
+First we note that even when Dax is running in serial it outperforms the
+VTK implementation.  Because of the large differences between the
+implementations of these two algorithms as well as the toolkits they are
+in, we cannot draw too many direct conclusions from this comparison.
+However, these timings validate the general approach we are talking and
+indicate that our generic programming is a viable alternative to the direct
+memory access and polymorphic object behavior implemented in VTK.
+
+Because the serial and OpenMP device adapters use different algorithms, we
+ran the OpenMP implementation on a single core for comparison purposes.  We
+note that the standard template library implementation is significantly
+faster than the Thrust implementation.  This might indicate an additional
+overhead in the parallel algorithms, or it may indicate that there is room
+for improvement in the Thrust implementation.  When the OpenMP
+implementation is run using all 8 cores of our system, we see a notable
+performance improvement.  We also note that using CUDA to run the threshold
+algorithm on the GPU is much faster than any of the multi-core CPU
+versions.  This time includes loading data from the CPU into the GPU (but
+does not include downloading the results back to the CPU).
 
 \section{Conclusion}
 \label{sec:Conclusion}
@@ -458,7 +500,7 @@ overhead.
 \section*{Acknowledgments}
 
 \noindent
-This work was supported in part by the DOE Office of Science, Advanced
+This work was supported in whole by the DOE Office of Science, Advanced
 Scientific Computing Research, under award number 10-014707, program
 manager Lucy Nowell.
 
