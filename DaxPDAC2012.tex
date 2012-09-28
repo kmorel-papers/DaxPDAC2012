@@ -145,7 +145,7 @@ performance computers involved partitioning data among distributed memory
 nodes and running independent processes that pass messages.  However,
 accelerators do not work well with such an approach.  Threads on an
 accelerator may be grouped in SIMD ``warps,'' can have indeterminate
-scheduling, and may be incapable of direct message passing\fix{citeCUDA?}.
+scheduling, and may be incapable of direct message passing\lcite{Sanders2011}.
 Even on processors with more complete and independent cores, taking
 advantage of shared memory threads can have its
 advantages\lcite{Camp2010,Howison2011}.  Ultimately, our algorithms must
@@ -171,6 +171,8 @@ computers and beyond.  In this paper we document the following features.
   of parallel programming.
 \item An adapter mechanism that encapsulates the change in behavior
   required port the toolkit among devices and compilers.
+\item A concept-enabled mechanism to automatically build parallel
+  scheduling code from signatures using C++ templates.
 \end{itemize}
 
 \section{Previous Work}
@@ -179,9 +181,9 @@ computers and beyond.  In this paper we document the following features.
 \noindent
 To implement algorithms that are configurable with respect to operations,
 data structures, and processor idiosyncrasies, Dax relies on
-well-established techniques of generic programming\fix{cite}.  Generic
-programming uses C++ templates to direct the compiler to specialize a
-particular piece of code to alternate implementations.
+well-established techniques of generic programming\lcite{Musser1996}.
+Generic programming uses C++ templates to direct the compiler to specialize
+a particular piece of code to alternate implementations.
 
 To maximize the amount of code that has no parallel dependencies, Dax
 employs a functor-based execution mode\lcite{Baker2010}.  The intention of
@@ -401,6 +403,8 @@ unstructured grid points would be stored).
 
 \begin{itemize}
 \item Data: supernova.  $432^3$ floating point.
+\item Threshold: 0.07 and above.
+\item Resulting mesh: 3,245,512 cells, 4,090,196 points
 \item Dual Quad-Core Intel Xeon processors (8 cores total), 32 GB system memory.
 \item 1 NVIDA Quadro 4000, 2 GB memory.
 \end{itemize}
