@@ -492,6 +492,21 @@ Dax automatically converts argument representations between the
 control and execution environments and extracts for each scheduled
 worklet execution argument values local to its operation.
 
+\fix{TODO: Sample \Code{Invoke<>} control environment interface.}
+
+\begin{figure}[ht]\centering
+  \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
+                   fontfamily=tt, fontsize=\scriptsize,
+                   numbers=left, numbersep=2pt]
+    \Ci{dax::cont::Schedule<>} \Cu{schedule};
+    ...
+    \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1});
+    \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});
+    ...
+  \end{Verbatim}
+  \caption{Example Worklet Invocation}\label{fig:InvokeSine}
+\end{figure}
+
 %-----------------------------------------------------------------------------
 \section{Results}
 
