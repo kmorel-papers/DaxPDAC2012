@@ -154,7 +154,7 @@
 \noindent
 Whereas supercomputers throughout the terascale era were almost
 unilaterally built from general purpose CPU processors on distributed
-memory nodes with a message passing interface, with petascale computing we
+memory nodes with a message passing interface, in petascale computing we
 are seeing the emerging use of accelerators to meet the execution and
 computation requirements of modern leadership-class facilities.  This trend
 was kicked off when the Roadrunner supercomputer, first to achieve a
@@ -197,7 +197,7 @@ computers and beyond.  In this paper we document the following features.
   development that provides a pervasive parallelism without the complexity
   of parallel programming.
 \item An adapter mechanism that encapsulates the change in behavior
-  required port the toolkit among devices and compilers.
+  required to port the toolkit among devices and compilers.
 \item A concept-enabled mechanism to automatically build parallel
   scheduling code from signatures using C++ templates.
 \end{itemize}
@@ -288,7 +288,7 @@ are
 
 A common theme among all of the worklet types is their behavior of applying
 the same operation across many small elements.  This approach is well
-proven to be an efficient mechanism to drive many compute core
+proven to be an efficient mechanism to drive many compute cores
 simultaneously.
 
 \section{Device Adapter}
@@ -333,26 +333,26 @@ taken when no such physical separation exists.
 In between these two environments sits the \keyterm{device adapter}.  The
 device adapter encapsulates all the specialized code required for running
 on a particular device with a particular compiler technology.  The
-functionality of the device adapter comprises to main parts: a collection
+functionality of the device adapter comprises two main parts: a collection
 of parallel algorithms and a module to transfer data between the control
 and execution environments.
 
 Each device adapter is expected to implement a set algorithms containing
-parallel for, scan, lower bounds (parallel find), stream compact, unique
+parallel for, scan, lower bounds (parallel find), stream compact, and unique
 (remove duplicates).  This list of operations is similar to those suggested
 by Blelloch\scite{Blelloch1990} and also a subset of those provided by the
 Thrust library\lcite{Thrust}.  Thrust itself provides a convenient
-implementation for device adapter because it itself is portable among
+implementation for device adapters because it itself is portable among
 devices.  However, the interface to the device adapter algorithms is
 independent of Thrust, and we have an example of a device adapter that can
 be built without Thrust.
 
 A device adapter also provides a module to handle the transfer of data
-between the control and execution environments.  Unlike other systems like
+between the control and execution environments.  Unlike other systems such as
 CUDA and Thrust, which explicitly define separate arrays and copy between
-them, the Dax device adapter to allocate and copy data in one monolithic
+them, the Dax device adapter allocates and copies data in one monolithic
 operation.  The advantage of this approach is that a device adapter for a
-system that shared memory between the two environments (such as with
+system that shares memory between the two environments (such as with
 OpenMP) can perform shallow copies to share the data.
 
 With these basic device adapter facilities, we can build a support library
@@ -379,7 +379,7 @@ environment.  When an array handle is used as input to an algorithm, the
 array handle automatically copies data to the execution environment.  This
 is done using the data transfer module of the device adapter discussed in
 Section~\ref{sec:DeviceAdapter}.  As described previously, if the control
-and execution environments can share data, then this data is not physically
+and execution environments can share memory, then this data is not physically
 copied but rather shared.  The array handle also maintains where data
 resides to avoid unnecessary copies.  That is, if data is needed in the
 execution environment and is already available in the execution environment,
@@ -402,7 +402,7 @@ container provides an encapsulated interface around the data so that any
 necessary strides or offsets may be handled internally.
 
 One interesting consequence of using a generic container object to manage
-data within an array handle is that the container can be define
+data within an array handle is that the container can be defined
 functionally rather than point to data stored in physical memory.  Thus,
 implicit array handles are easily created by adapting to functional
 containers.  For example, the point coordinates of a uniform rectilinear
@@ -496,11 +496,11 @@ from a supernova simulation made available by John Blondin at the North
 Carolina State University and Anthony Mezzacappa of Oak Ridge National
 Laboratory\lcite{Blondin2003}.  The data comprises a uniform grid of
 $432^3$ points with a 32-bit floating point field value associated with
-each point.  The result of our threshold algorithm contains 3,245,512 cells
-and 4,090,196.  All runs are performed on a Mac desktop with dual Quad-Core
-Intel Xeon processors (8 cores total) and 32 GB of system memory.  The
-system contains an NVIDIA Quadro 4000 with 2 GB of memory on which CUDA
-tests were run.
+each point.  The result of our threshold algorithm, shown in
+Figure~\ref{fig:Supernova}, contains 3,245,512 cells and 4,090,196 points.
+All runs are performed on a Mac desktop with dual Quad-Core Intel Xeon
+processors (8 cores total) and 32 GB of system memory.  The system contains
+an NVIDIA Quadro 4000 with 2 GB of memory on which CUDA tests were run.
 
 As described in Section~\ref{sec:DeviceAdapter}, Dax's device adapter
 mechanism makes it easy to port the toolkit among different execution
