@@ -422,6 +422,10 @@ the execution environment.
 %
 We ask the author of a worklet only to specify declarative meta-data
 describing its interfaces in the control and execution environments.
+%
+A worklet is defined as a C++ class deriving from the worklet type and
+providing two meta-data typedefs and a function call operator
+implementing the functor.
 
 %\begin{figure*}\centering\begin{minipage}[c]{0.6\textwidth}
 \begin{figure}[ht]\centering
@@ -437,33 +441,56 @@ describing its interfaces in the control and execution environments.
       \}
     \};
   \end{Verbatim}
-  \caption{Example Worklet}\label{fig:Sine}
+  \caption{Example Worklet Definition}\label{fig:Sine}
 \end{figure}
 %\end{minipage}\end{figure*}
 
-Figure~\ref{fig:Sine} shows a sample Dax worklet definition
-(Dax-provided names shown as \Code{\CiDesc} text).
+Figure~\ref{fig:Sine} shows a sample Dax worklet definition with
+Dax-provided names shown as \Code{\CiDesc} text.
 %
-A worklet is a C++ functor whose class type derives from the worklet
-type (line~\ref{fig:Sine.struct}).
+The worklet type \Code{\Ci{WorkletMapField}}
+(line~\ref{fig:Sine.struct}) corresponds to the ``Field Map'' worklet
+type discussed in Section~\ref{sec:AlgorithmicApproach}.
+
+The \Code{ControlSignature} (line~\ref{fig:Sine.cont}) has an entry
+for each argument one must provide to invoke the worklet from the
+control environment.
 %
-In this example \Code{WorkletMapField} corresponds to the ``Field
-Map'' worklet type discussed in Section~\ref{sec:AlgorithmicApproach}.
+Borrowing terminology from the C++ ``concepts'' proposal by Gregor
+\etal\scite{Gregor2006}, each entry specifies a \emph{concept}
+documenting requirements its argument must meet.
 %
-A worklet class must provide two typedefs and a function call operator
-implementing the functor.
+Dax binds each invocation argument to its corresponding concept using
+a \emph{concept map} defining how the concrete value type meets the
+requirements.
 %
-The \Code{ControlSignature} specifies how one must invoke the
-worklet from the control environment (line~\ref{fig:Sine.cont}).
+Tags optionally specified in parentheses after the concept name in a
+control signature entry are provided to concepts maps to tell them
+more about how their argument will be used.
 %
-The \Code{ExecutionSignature} specifies how Dax should invoke the
-worklet function call operator in the execution environment
-(line~\ref{fig:Sine.exec}).
+Our example uses the \Code{\Ci{Field}} concept to specify that
+arguments must provide an array of values indexable over some domain.
 %
-The function call \Code{operator()} provides the implementation for
-the execution environment (line~\ref{fig:Sine.op}) so it is marked
-with \Code{DAX\_EXEC\_EXPORT} (like \Code{\_\_device\_\_} for
-CUDA).
+The arguments have \Code{\Ci{In}} and \Code{\Ci{Out}} tags to indicate
+that they will be used as the input and output of the Field Map
+operation, respectively.
+
+The \Code{ExecutionSignature} entries (line~\ref{fig:Sine.exec}) map
+one-to-one by position to the function call operator signature and
+specify what Dax should pass to invoke the worklet in the execution
+environment.
+%
+The function call \Code{operator()} (line~\ref{fig:Sine.op}) provides
+the implementation for the execution environment and must be marked
+with \Code{DAX\_EXEC\_EXPORT} (like \Code{\_\_device\_\_} for CUDA).
+%
+Each execution signature entry typically references a control
+signature argument position using a placeholder e.g. \Code{\Ci{\_1}}
+for the first argument and \Code{\Ci{\_2}} for the second argument.
+%
+Dax automatically converts argument representations between the
+control and execution environments and extracts for each scheduled
+worklet execution argument values local to its operation.
 
 %-----------------------------------------------------------------------------
 \section{Results}
