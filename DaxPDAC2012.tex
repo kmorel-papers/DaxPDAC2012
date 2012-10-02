@@ -505,8 +505,8 @@ with \Code{DAX\_EXEC\_EXPORT} (like \Code{\_\_device\_\_} for CUDA).
 Each execution signature entry typically references a control
 signature argument position using a placeholder e.g. \Code{\Ci{\_1}}
 for the first argument and \Code{\Ci{\_2}} for the second argument.
-It also allows for signtaure entries that represent runtime information,
-such as current iteration index using \Code{\Ci{WorkId}}.
+It also allows for signature entries that represent runtime information,
+such as current iteration index.
 
 
 Dax automatically converts argument representations between the
@@ -517,7 +517,7 @@ worklet execution argument values local to its operation.
   \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
                    fontfamily=tt, fontsize=\scriptsize,
                    numbers=left, numbersep=2pt]
-    \Ci{dax::cont::Schedule<>} \Cu{schedule};
+    \Ci{dax::cont::Schedule<>} \Cu{schedule};\label{fig:InvokeSine.constructor}
     ...
     \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1}); \label{fig:InvokeSine.constant}
     \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});  \label{fig:InvokeSine.array}
@@ -525,20 +525,19 @@ worklet execution argument values local to its operation.
   \end{Verbatim}
   \caption{Example Worklet Invocation}\label{fig:InvokeSine}
 \end{figure}
-%
-The \Code{\Ci{dax::cont::Schedule}} object is a variadic functor
-whose arguments are the worklet followed by the worklet's arguments.
-In Figure~\ref{fig:InvokeSine} we see using the \Code{\Ci{dax::cont::Schedule}} object two
-execute the worklet from Figure~\ref{fig:Sine} twice.
+
+
+The \Code{\Ci{dax::cont::Schedule}} is a variadic functor which is templated on the
+execution environment (line~\ref{fig:InvokeSine.constructor}) where it will
+execute all worklets. The \Code{operator()} of \Code{\Ci{dax::cont::Schedule}} is the variadic function
+whose first argument is the worklet and the rest being the arguments that
+fulfill the \Code{ControlSignature} of the worklet.
 
 When Dax binds each control invocation argument to its corresponding concept it determines
 the execution range for the argument given the worklets domain. Combining these ranges determine
 how we schedule each worklet. Line~\ref{fig:InvokeSine.constant} of Figure~\ref{fig:InvokeSine} shows
 the invocation of the Sine worklet for a length of one, while line~\ref{fig:InvokeSine.array}
 shows the same Sine worklet executing over the length of \Code{\Cu{inArray}}.
-
-
-
 
 %-----------------------------------------------------------------------------
 \section{Results}
