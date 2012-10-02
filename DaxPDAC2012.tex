@@ -39,10 +39,10 @@
 
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
-% 
+%
 %\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
+%James Kirk\IEEEauthorrefmark{3},
 %Montgomery Scott\IEEEauthorrefmark{3} and
 %Eldon Tyrell\IEEEauthorrefmark{4}}
 %\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
@@ -77,6 +77,24 @@
 \definecolor{ltcyan}{rgb}{.75,1,1}
 \definecolor{red}{rgb}{1,0,0}
 \definecolor{gray}{rgb}{.6,.6,.6}
+\definecolor{darkred}{rgb}{0.5,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+
+% The listings package provides nice printing of source code.
+\usepackage{listings}
+\lstloadlanguages{C,C++}
+\lstset{fontadjust=false,basicstyle=\small\ttfamily}
+\lstset{language=C++}
+\lstdefinelanguage{Dax}{
+  morekeywords={WorkMapField,WorkMapCell,Cell,Field,FieldCell,FieldPoint,FieldCoordinates,Scalar,Vector3,Vector4},
+  morekeywords={[2]dax,exec,comp},
+  morekeywords={[3]DAX_WORKLET,DAX_IN,DAX_OUT}
+}
+\lstset{
+  keywordstyle=\color{blue},
+  keywordstyle=[2]\color{darkred},
+  keywordstyle=[3]\color{darkgreen}
+}
 
 % Cite commands I use to abstract away the different ways to reference an
 % entry in the bibliography (superscripts, numbers, dates, or author
@@ -487,25 +505,40 @@ with \Code{DAX\_EXEC\_EXPORT} (like \Code{\_\_device\_\_} for CUDA).
 Each execution signature entry typically references a control
 signature argument position using a placeholder e.g. \Code{\Ci{\_1}}
 for the first argument and \Code{\Ci{\_2}} for the second argument.
-%
+It also allows for signtaure entries that represent runtime information,
+such as current iteration index using \Code{\Ci{WorkId}}.
+
+
 Dax automatically converts argument representations between the
 control and execution environments and extracts for each scheduled
 worklet execution argument values local to its operation.
-
-\fix{TODO: Sample \Code{Invoke<>} control environment interface.}
-
+%
 \begin{figure}[ht]\centering
   \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
                    fontfamily=tt, fontsize=\scriptsize,
                    numbers=left, numbersep=2pt]
     \Ci{dax::cont::Schedule<>} \Cu{schedule};
     ...
-    \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1});
-    \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});
+    \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1}); \label{fig:InvokeSine.constant}
+    \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});  \label{fig:InvokeSine.array}
     ...
   \end{Verbatim}
   \caption{Example Worklet Invocation}\label{fig:InvokeSine}
 \end{figure}
+%
+The \Code{\Ci{dax::cont::Schedule}} object is a variadic functor
+whose arguments are the worklet followed by the worklet's arguments.
+In Figure~\ref{fig:InvokeSine} we see using the \Code{\Ci{dax::cont::Schedule}} object two
+execute the worklet from Figure~\ref{fig:Sine} twice.
+
+When Dax binds each control invocation argument to its corresponding concept it determines
+the execution range for the argument given the worklets domain. Combining these ranges determine
+how we schedule each worklet. Line~\ref{fig:InvokeSine.constant} of Figure~\ref{fig:InvokeSine} shows
+the invocation of the Sine worklet for a length of one, while line~\ref{fig:InvokeSine.array}
+shows the same Sine worklet executing over the length of \Code{\Cu{inArray}}.
+
+
+
 
 %-----------------------------------------------------------------------------
 \section{Results}
