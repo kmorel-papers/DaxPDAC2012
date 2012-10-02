@@ -83,17 +83,22 @@
 % The listings package provides nice printing of source code.
 \usepackage{listings}
 \lstloadlanguages{C,C++}
-\lstset{fontadjust=false,basicstyle=\small\ttfamily}
+\lstset{fontadjust=false,basicstyle=\scriptsize\ttfamily}
+\lstset{ numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=2pt}
 \lstset{language=C++}
 \lstdefinelanguage{Dax}{
-  morekeywords={WorkMapField,WorkMapCell,Cell,Field,FieldCell,FieldPoint,FieldCoordinates,Scalar,Vector3,Vector4},
-  morekeywords={[2]dax,exec,comp},
-  morekeywords={[3]DAX_WORKLET,DAX_IN,DAX_OUT}
+  morekeywords={struct,class,public,typedef, void, template, return, operator, const, for, int},
+  morekeywords={[2]WorkletMapField,WorkletMapCell,Cell,Field,FieldCell,
+                  FieldPoint,FieldCoordinates,Scalar,Vector3,Vector4,
+                  Schedule,ArrayHandle,make_ArrayHandle,Sin
+                  DAX_EXEC_EXPORT,_2,_1, In, Out},
+  morekeywords={[3]dax,exec,cont,math},
+  morekeywords={[4]}
 }
 \lstset{
-  keywordstyle=\color{blue},
-  keywordstyle=[2]\color{darkred},
-  keywordstyle=[3]\color{darkgreen}
+  keywordstyle=[2]\color{blue},
+  keywordstyle=[3]\color{darkred},
+  keywordstyle=[4]\color{darkgreen}
 }
 
 % Cite commands I use to abstract away the different ways to reference an
@@ -111,9 +116,10 @@
 
 % Code highlighting markup.
 \newcommand{\Ck}[1]{{#1}} % Language keyword
-\newcommand{\Ci}[1]{{\textbf{#1}}} % Dax-provided identifier
-\newcommand{\CiDesc}{\Ci{Bold}}
-\newcommand{\Cu}[1]{{\color{gray}\textbf{#1}}} % User-provided identifier
+\newcommand{\Ci}[1]{\color{blue}{#1}} % Dax-provided identifier
+\newcommand{\CiDesc}{\Ci{Blue}}
+%\newcommand{\Cu}[1]{{\color{gray}\textbf{#1}}} % User-provided identifier
+\newcommand{\Cu}[1]{{\textbf{#1}}} % User-provided identifier
 \newcommand{\Code}[1]{{\small\texttt{#1}}}
 
 \newcommand{\fix}[1]{{\color{red}\textsc{[#1]}}}
@@ -445,23 +451,41 @@ A worklet is defined as a C++ class deriving from the worklet type and
 providing two meta-data typedefs and a function call operator
 implementing the functor.
 
-%\begin{figure*}\centering\begin{minipage}[c]{0.6\textwidth}
-\begin{figure}[ht]\centering
-  \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
-                   fontfamily=tt, fontsize=\scriptsize,
-                   numbers=left, numbersep=2pt]
-    \Ck{struct} \Cu{Sine}: \Ck{public} \Ci{dax::exec::WorkletMapField} \{ \label{fig:Sine.struct}
-      \Ck{typedef} \Ck{void} \Cu{ControlSignature}(\Ci{Field}(\Ci{In}), \Ci{Field}(\Ci{Out})); \label{fig:Sine.cont}
-      \Ck{typedef} \Ci{\_2} \Cu{ExecutionSignature}(\Ci{\_1}); \label{fig:Sine.exec}
-      \Ck{template} <\Ck{class} \Cu{T}>
-      \Ci{DAX\_EXEC\_EXPORT} \Cu{T} \Ck{operator()}(\Cu{T} \Cu{v}) \Ck{const} \{ \label{fig:Sine.op}
-        \Ck{return} \Ck{sin}(\Cu{v});
-      \}
-    \};
-  \end{Verbatim}
-  \caption{Example Worklet Definition}\label{fig:Sine}
+\begin{figure}[ht]
+  \centering
+  \begin{lstlisting}[language=Dax,escapeinside={@}{@}]
+  struct Sine: public dax::exec::WorkletMapField { @\label{fig:Sine.struct}@
+    typedef void ControlSignature(Field(In), Field(Out)); @\label{fig:Sine.cont}@
+    typedef _2 ExecutionSignature(_1); @\label{fig:Sine.exec}@
+
+    template <class T>
+    DAX_EXEC_EXPORT T operator()(T v) const { @\label{fig:Sine.op}@
+      return dax::math::Sin(v);
+    }
+  };
+
+ \end{lstlisting}
+ \caption{Example Worklet Definition}
+\label{fig:Sine}
 \end{figure}
-%\end{minipage}\end{figure*}
+
+% \begin{figure*}\centering\begin{minipage}[c]{0.6\textwidth}
+% \begin{figure}[ht]\centering
+%   \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
+%                    fontfamily=tt, fontsize=\scriptsize,
+%                    numbers=left, numbersep=2pt]
+%     \Ck{struct} \Cu{Sine}: \Ck{public} \Ci{dax::exec::WorkletMapField} \{ \label{fig:Sine.struct}
+%       \Ck{typedef} \Ck{void} \Cu{ControlSignature}(\Ci{Field}(\Ci{In}), \Ci{Field}(\Ci{Out})); \label{fig:Sine.cont}
+%       \Ck{typedef} \Ci{\_2} \Cu{ExecutionSignature}(\Ci{\_1}); \label{fig:Sine.exec}
+%       \Ck{template} <\Ck{class} \Cu{T}>
+%       \Ci{DAX\_EXEC\_EXPORT} \Cu{T} \Ck{operator()}(\Cu{T} \Cu{v}) \Ck{const} \{ \label{fig:Sine.op}
+%         \Ck{return} \Ck{sin}(\Cu{v});
+%       \}
+%     \};
+%   \end{Verbatim}
+%   \caption{Example Worklet Definition}\label{fig:Sine}
+% \end{figure}
+% \end{minipage}\end{figure*}
 
 Figure~\ref{fig:Sine} shows a sample Dax worklet definition with
 Dax-provided names shown as \Code{\CiDesc} text.
@@ -512,32 +536,53 @@ such as current iteration index.
 Dax automatically converts argument representations between the
 control and execution environments and extracts for each scheduled
 worklet execution argument values local to its operation.
-%
-\begin{figure}[ht]\centering
-  \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
-                   fontfamily=tt, fontsize=\scriptsize,
-                   numbers=left, numbersep=2pt]
-    \Ci{dax::cont::Schedule<>} \Cu{schedule};\label{fig:InvokeSine.constructor}
-    ...
-    \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1}); \label{fig:InvokeSine.constant}
-    \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});  \label{fig:InvokeSine.array}
-    ...
-  \end{Verbatim}
-  \caption{Example Worklet Invocation}\label{fig:InvokeSine}
+
+\begin{figure}[ht]
+  \centering
+  \begin{lstlisting}[language=Dax,escapeinside={@}{@}]
+
+  std::vector<dax::Scalar> input(10);
+  for(std::size_t i=0; i < intput.size(); ++i)
+    { input[i]=1.0f+i; }
+
+  dax::cont::ArrayHandle<dax::Scalar> inputHandle =
+      dax::cont::make_ArrayHandle(input);
+  dax::cont::ArrayHandle<dax::Scalar> sineResult;
+
+  dax::cont::Schedule<> scheduler; @\label{fig:InvokeSine.constructor}@
+  scheduler(Sine(),1.0f,sineResult); @\label{fig:InvokeSine.constant}@
+  scheduler(Sine(),inputHandle,sineResult); @\label{fig:InvokeSine.array}@
+
+  \end{lstlisting}
+  \caption{Example Worklet Invocation}
+  \label{fig:InvokeSine}
 \end{figure}
 
+% \begin{figure}[ht]\centering
+%   \begin{Verbatim}[commandchars=\\\{\}, gobble=4, frame=single,
+%                    fontfamily=tt, fontsize=\scriptsize,
+%                    numbers=left, numbersep=2pt]
+%     \Ci{dax::cont::Schedule<>} \Cu{schedule};\label{fig:InvokeSine.constructor}
+%     ...
+%     \Cu{schedule}(\Cu{Sine}(), 1.0f, \Cu{outArray1}); \label{fig:InvokeSine.constant}
+%     \Cu{schedule}(\Cu{Sine}(), \Cu{inArray}, \Cu{outArray2});  \label{fig:InvokeSine.array}
+%     ...
+%   \end{Verbatim}
+%   \caption{Example Worklet Invocation}\label{fig:InvokeSine}
+% \end{figure}
 
-The \Code{\Ci{dax::cont::Schedule}} is a variadic functor which is templated on the
+
+\Code{\Ci{Schedule}} is a variadic functor which is templated on the
 execution environment (line~\ref{fig:InvokeSine.constructor}) where it will
-execute all worklets. The \Code{operator()} of \Code{\Ci{dax::cont::Schedule}} is the variadic function
-whose first argument is the worklet and the rest being the arguments that
-fulfill the \Code{ControlSignature} of the worklet.
+execute all worklets. The \Code{operator()} of \Code{\Ci{Schedule}} is the variadic function
+whose first argument is the worklet followed by the arguments that
+fulfill the worklets \Code{ControlSignature}.
 
 When Dax binds each control invocation argument to its corresponding concept it determines
 the execution range for the argument given the worklets domain. Combining these ranges determine
 how we schedule each worklet. Line~\ref{fig:InvokeSine.constant} of Figure~\ref{fig:InvokeSine} shows
 the invocation of the Sine worklet for a length of one, while line~\ref{fig:InvokeSine.array}
-shows the same Sine worklet executing over the length of \Code{\Cu{inArray}}.
+shows the Sine worklet executing over the length of \Code{inputHandle}.
 
 %-----------------------------------------------------------------------------
 \section{Results}
