@@ -90,7 +90,7 @@
   morekeywords={struct,class,public,typedef, void, template, return, operator, const, for, int},
   morekeywords={[2]WorkletMapField,WorkletMapCell,Cell,Field,FieldCell,
                   FieldPoint,FieldCoordinates,Scalar,Vector3,Vector4,
-                  Schedule,ArrayHandle,make_ArrayHandle,Sin
+                  Schedule,ArrayHandle,make_ArrayHandle,Sin,
                   DAX_EXEC_EXPORT,_2,_1, In, Out},
   morekeywords={[3]dax,exec,cont,math},
   morekeywords={[4]}
@@ -550,8 +550,8 @@ worklet execution argument values local to its operation.
   dax::cont::ArrayHandle<dax::Scalar> sineResult;
 
   dax::cont::Schedule<> scheduler; @\label{fig:InvokeSine.constructor}@
-  scheduler(Sine(),1.0f,sineResult); @\label{fig:InvokeSine.constant}@
-  scheduler(Sine(),inputHandle,sineResult); @\label{fig:InvokeSine.array}@
+  scheduler(Sine(), 1.0f, sineResult); @\label{fig:InvokeSine.constant}@
+  scheduler(Sine(), inputHandle, sineResult); @\label{fig:InvokeSine.array}@
 
   \end{lstlisting}
   \caption{Example Worklet Invocation}
@@ -572,9 +572,8 @@ worklet execution argument values local to its operation.
 % \end{figure}
 
 
-\Code{\Ci{Schedule}} is a variadic functor which is templated on the
-execution environment (line~\ref{fig:InvokeSine.constructor}) where it will
-execute all worklets. The \Code{operator()} of \Code{\Ci{Schedule}} is the variadic function
+\Code{\Ci{Schedule}} (line~\ref{fig:InvokeSine.constructor}) is a variadic functor which is templated on the
+execution environment where worklets will be executed. The \Code{operator()} of \Code{\Ci{Schedule}} is the variadic function
 whose first argument is the worklet followed by the arguments that
 fulfill the worklets \Code{ControlSignature}.
 
