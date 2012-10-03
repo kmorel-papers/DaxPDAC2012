@@ -575,12 +575,12 @@ worklet execution argument values local to its operation.
 \Code{\Ci{Schedule}} (line~\ref{fig:InvokeSine.constructor}) is a variadic functor which is templated on the
 execution environment where worklets will be executed. The \Code{operator()} of \Code{\Ci{Schedule}} is the variadic function
 whose first argument is the worklet followed by the arguments that
-fulfill the worklets \Code{ControlSignature}.
+fulfill the worklet's \Code{ControlSignature}.
 
 When Dax binds each control invocation argument to its corresponding concept it determines
-the execution range for the argument given the worklets domain. Combining these ranges determine
+the execution range for the argument given the worklet's domain. Combining these ranges determines
 how we schedule each worklet. Line~\ref{fig:InvokeSine.constant} of Figure~\ref{fig:InvokeSine} shows
-the invocation of the Sine worklet for a length of one, while line~\ref{fig:InvokeSine.array}
+the invocation of the Sine worklet for a length of one whereas line~\ref{fig:InvokeSine.array}
 shows the Sine worklet executing over the length of \Code{inputHandle}.
 
 %-----------------------------------------------------------------------------
