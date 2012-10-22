@@ -463,7 +463,6 @@ implementing the functor.
       return dax::math::Sin(v);
     }
   };
-
  \end{lstlisting}
  \caption{Example Worklet Definition}
 \label{fig:Sine}
@@ -540,7 +539,6 @@ worklet execution argument values local to its operation.
 \begin{figure}[ht]
   \centering
   \begin{lstlisting}[language=Dax,escapeinside={@}{@}]
-
   std::vector<dax::Scalar> input(10);
   for(std::size_t i=0; i < intput.size(); ++i)
     { input[i]=1.0f+i; }
@@ -552,7 +550,6 @@ worklet execution argument values local to its operation.
   dax::cont::Schedule<> scheduler; @\label{fig:InvokeSine.constructor}@
   scheduler(Sine(), 1.0f, sineResult); @\label{fig:InvokeSine.constant}@
   scheduler(Sine(), inputHandle, sineResult); @\label{fig:InvokeSine.array}@
-
   \end{lstlisting}
   \caption{Example Worklet Invocation}
   \label{fig:InvokeSine}
