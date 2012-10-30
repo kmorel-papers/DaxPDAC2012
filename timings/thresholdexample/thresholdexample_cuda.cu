@@ -6,5 +6,5 @@
 
 int main(int, char *[])
 {
-  return ThresholdExample<dax::cuda::cont::DeviceAdapterTagCuda>::Run();
+  return ThresholdExample<dax::cuda::cont::DeviceAdapterTagCuda>::Run("CUDA");
 }

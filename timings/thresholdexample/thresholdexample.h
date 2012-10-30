@@ -145,7 +145,7 @@ private:
   }
 
 public:
-  static int Run()
+  static int Run(const char *description)
   {
     try
     {
@@ -199,13 +199,14 @@ public:
 
     double time = (timer.elapsed().wall)/1.0e9;
     std::cout << "Time: " << time << " seconds" << std::endl;
+    std::cout << "CSV," << description << "," << time << std::endl;
 
-    std::cout << "Writing threshold geometry..." << std::endl;
-    std::ofstream file;
-    file.open("/Users/kmorel/Downloads/thresholdGeometry.vtk");
-    PrintContentsToStream(outGrid, file);
-    file.close();
-    std::cout << "Done." << std::endl;
+//    std::cout << "Writing threshold geometry..." << std::endl;
+//    std::ofstream file;
+//    file.open("/Users/kmorel/Downloads/thresholdGeometry.vtk");
+//    PrintContentsToStream(outGrid, file);
+//    file.close();
+//    std::cout << "Done." << std::endl;
     }
     catch (dax::cont::Error error)
     {

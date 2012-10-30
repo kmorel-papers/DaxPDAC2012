@@ -4,5 +4,5 @@
 
 int main(int, char *[])
 {
-  return ThresholdExample<dax::tbb::cont::DeviceAdapterTagTBB>::Run();
+  return ThresholdExample<dax::tbb::cont::DeviceAdapterTagTBB>::Run("TBB");
 }

@@ -4,5 +4,5 @@
 
 int main(int, char *[])
 {
-  return ThresholdExample<dax::openmp::cont::DeviceAdapterTagOpenMP>::Run();
+  return ThresholdExample<dax::openmp::cont::DeviceAdapterTagOpenMP>::Run("OpenMP");
 }
