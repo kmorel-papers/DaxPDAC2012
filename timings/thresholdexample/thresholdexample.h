@@ -27,6 +27,7 @@ class ThresholdExample
 private:
 
   static const int GRID_SIZE = 432;
+  static const int NUM_TRIALS = 1;
 
   typedef dax::cont::ArrayContainerControlTagBasic Container;
 
@@ -49,8 +50,7 @@ private:
     return grid;
   }
 
-  static ArrayHandleScalar
-  ReadSupernovaData(std::vector<dax::Scalar> &buffer)
+  static void ReadSupernovaData(std::vector<dax::Scalar> &buffer)
   {
     assert(sizeof(float) == sizeof(dax::Scalar));
 
@@ -62,8 +62,6 @@ private:
     assert(ferror(fd) == 0);
 
     fclose(fd);
-
-    return dax::cont::make_ArrayHandle(buffer, Container(), DeviceAdapter());
   }
 
   static void WriteGradientMagnitude(const ArrayHandleScalar &data)
@@ -151,55 +149,61 @@ public:
     {
     std::cout << "Reading data..." << std::endl;
     std::vector<dax::Scalar> buffer;
-    ArrayHandleScalar inArray = ReadSupernovaData(buffer);
+    ReadSupernovaData(buffer);
     std::cout << "Data read." << std::endl;
 
     UniformGridType grid = CreateUniformGrid();
-    assert(grid.GetNumberOfPoints() == inArray.GetNumberOfValues());
 
-//    std::cout << "Computing gradient..." << std::endl;
-//    dax::cont::ArrayHandle<dax::Vector3> gradient;
-//    dax::cont::worklet::CellGradient(
-//          grid, grid.GetPointCoordinates(), inArray, gradient);
-//    inArray.ReleaseResources();
+    for (int trial = 0; trial < NUM_TRIALS; trial++)
+      {
+      ArrayHandleScalar inArray =
+          dax::cont::make_ArrayHandle(buffer, Container(), DeviceAdapter());
+      assert(grid.GetNumberOfPoints() == inArray.GetNumberOfValues());
 
-//    std::cout << "Computing magnitude..." << std::endl;
-//    dax::cont::ArrayHandle<dax::Scalar> magnitude;
-//    dax::cont::worklet::Magnitude(gradient, magnitude);
-//    gradient.ReleaseResources();
+//      std::cout << "Computing gradient..." << std::endl;
+//      dax::cont::ArrayHandle<dax::Vector3> gradient;
+//      dax::cont::worklet::CellGradient(
+//            grid, grid.GetPointCoordinates(), inArray, gradient);
+//      inArray.ReleaseResources();
 
-//    std::cout << "Writing gradient magnitude..." << std::endl;
-//    WriteGradientMagnitude(magnitude);
-//    std::cout << "Data written." << std::endl;
+//      std::cout << "Computing magnitude..." << std::endl;
+//      dax::cont::ArrayHandle<dax::Scalar> magnitude;
+//      dax::cont::worklet::Magnitude(gradient, magnitude);
+//      gradient.ReleaseResources();
 
-    std::cout << "Computing Threshold..." << std::endl;
-    boost::timer::cpu_timer timer;
-    timer.start();
-    typedef dax::cont::ScheduleGenerateTopology<
-        dax::worklet::ThresholdTopology,DeviceAdapter>
-        ScheduleGenerateTopologyType;
-    typedef typename ScheduleGenerateTopologyType::ClassifyResultType
-        ClassifyResultType;
+//      std::cout << "Writing gradient magnitude..." << std::endl;
+//      WriteGradientMagnitude(magnitude);
+//      std::cout << "Data written." << std::endl;
 
-    dax::cont::Scheduler<DeviceAdapter> scheduler;
+      std::cout << "Computing Threshold..." << std::endl;
+      boost::timer::cpu_timer timer;
+      timer.start();
+      typedef dax::cont::ScheduleGenerateTopology<
+          dax::worklet::ThresholdTopology,DeviceAdapter>
+          ScheduleGenerateTopologyType;
+      typedef typename ScheduleGenerateTopologyType::ClassifyResultType
+          ClassifyResultType;
 
-    ClassifyResultType classificationArray;
-    scheduler.Invoke(dax::worklet::ThresholdClassify<dax::Scalar>(0.07, 1.0),
-                     grid,
-                     inArray,
-                     classificationArray);
+      dax::cont::Scheduler<DeviceAdapter> scheduler;
 
-    ScheduleGenerateTopologyType resolveTopology(classificationArray);
-    UnstructuredGridType outGrid;
-    scheduler.Invoke(resolveTopology, grid, outGrid);
+      ClassifyResultType classificationArray;
+      scheduler.Invoke(dax::worklet::ThresholdClassify<dax::Scalar>(0.07, 1.0),
+                       grid,
+                       inArray,
+                       classificationArray);
 
-    // Copy grid information to host, if necessary.
-    outGrid.GetCellConnections().GetPortalConstControl();
-    outGrid.GetPointCoordinates().GetPortalConstControl();
+      ScheduleGenerateTopologyType resolveTopology(classificationArray);
+      UnstructuredGridType outGrid;
+      scheduler.Invoke(resolveTopology, grid, outGrid);
 
-    double time = (timer.elapsed().wall)/1.0e9;
-    std::cout << "Time: " << time << " seconds" << std::endl;
-    std::cout << "CSV," << description << "," << time << std::endl;
+      // Copy grid information to host, if necessary.
+      outGrid.GetCellConnections().GetPortalConstControl();
+      outGrid.GetPointCoordinates().GetPortalConstControl();
+
+      double time = (timer.elapsed().wall)/1.0e9;
+      std::cout << "Time: " << time << " seconds" << std::endl;
+      std::cout << "CSV," << description << "," << time << "," << trial << std::endl;
+      }
 
 //    std::cout << "Writing threshold geometry..." << std::endl;
 //    std::ofstream file;
