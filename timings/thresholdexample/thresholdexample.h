@@ -27,7 +27,7 @@ class ThresholdExample
 private:
 
   static const int GRID_SIZE = 432;
-  static const int NUM_TRIALS = 1;
+  static const int NUM_TRIALS = 20;
 
   typedef dax::cont::ArrayContainerControlTagBasic Container;
 

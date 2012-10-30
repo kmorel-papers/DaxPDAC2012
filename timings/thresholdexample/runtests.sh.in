@@ -1,0 +1,33 @@
+#!/bin/sh
+
+builddir=@CMAKE_BINARY_DIR@
+
+devices="
+    serial
+    tbb1
+    tbb
+    openmp1
+    openmp
+    cuda
+"
+
+logfile=`date '+timings-%Y-%m-%d.csv'`
+
+function dotest {
+    for device in $devices
+    do
+	echo "***** Testing $device ******"
+	$builddir/thresholdexample_$device \
+	    | sed -n 's/^CSV,//p' \
+	    | tee -a $logfile
+    done
+}
+
+if [ -f $logfile ] ; then
+    echo "$logfile exists.  Aborting"
+    exit 1
+fi
+
+echo "Device,Seconds" > $logfile
+
+dotest

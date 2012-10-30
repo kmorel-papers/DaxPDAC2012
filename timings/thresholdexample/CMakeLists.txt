@@ -42,3 +42,8 @@ cuda_add_executable(thresholdexample_cuda
   thresholdexample_cuda.cu
   )
 
+configure_file(
+  runtests.sh.in
+  ${CMAKE_BINARY_DIR}/runtest.sh
+  @ONLY
+  )
