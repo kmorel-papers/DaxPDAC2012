@@ -21,11 +21,19 @@ add_executable(thresholdexample_openmp
   thresholdexample.h
   thresholdexample_openmp.cxx
   )
+add_executable(thresholdexample_openmp1
+  thresholdexample.h
+  thresholdexample_openmp1.cxx
+  )
 
 DaxConfigureTBB(REQUIRED)
 add_executable(thresholdexample_tbb
   thresholdexample.h
   thresholdexample_tbb.cxx
+  )
+add_executable(thresholdexample_tbb1
+  thresholdexample.h
+  thresholdexample_tbb1.cxx
   )
 
 DaxConfigureCuda(REQUIRED)
