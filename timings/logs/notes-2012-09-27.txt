@@ -1,0 +1,1 @@
+Some example code (similar to what I plan to place in this repository) run on my Desktop: dual Quad-Core Intel Xeon processors (8 cores total) and 32 GB of system memory.  NVIDIA Quadro 4000 with 2 GB of memory.
