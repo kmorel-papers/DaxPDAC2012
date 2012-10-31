@@ -209,7 +209,7 @@ landscape of the development environment.  The Cell BE processors (and
 associated compiler environment) comprising Roadrunner is already
 discontinued.  Instead, NVIDIA is aggressively pursing leadership in
 accelerator technology for scientific computation with Intel hot on its
-heels.  Several compiler technologies such as OpenMP, CUDA, Threaded
+heels.  Several compiler technologies such as OpenMP, CUDA, Intel Threading
 Building Blocks, and OpenACC also compete for multi-threaded programming.
 
 Our team is creating the Dax toolkit\lcite{Moreland2011:LDAV}, which seeks
@@ -601,7 +601,7 @@ information intact.
 
 \begin{figure*}
   \centering
-  \includegraphics[width=\linewidth]{images/ThresholdTiming}
+  \includegraphics{images/ThresholdTiming}
   \caption{Timing results for threshold operation.}
   \label{fig:Timing}
 \end{figure*}
@@ -619,15 +619,16 @@ an NVIDIA Quadro 4000 with 2 GB of memory on which CUDA tests were run.
 
 As described in Section~\ref{sec:DeviceAdapter}, Dax's device adapter
 mechanism makes it easy to port the toolkit among different execution
-environments.  We currently implement three device adapters: a serial
+environments.  We currently implement four device adapters: a serial
 execution that uses the C++ standard template library's algorithms, an
 OpenMP execution on multiple CPU cores that uses the Thrust library's
-algorithms, and a CUDA execution on NVIDIA GPUs that also uses Thrust.  We
-run our Dax threshold algorithm using all three of these device adapters
-for comparison purposes.  Because our threshold operation in Dax produces
-results that are isomorphic to those produced by VTK, we also run our
-algorithm using the VTK filter.  The timing results of all these runs are
-summarized in Figure~\ref{fig:Timing}.
+algorithms, a CUDA execution on NVIDIA GPUs that also uses Thrust, and an
+Intel Threading Building Blocks (TBB) enabled execution on multiple CPU
+cores.  We run our Dax threshold algorithm using all three of these device
+adapters for comparison purposes.  Because our threshold operation in Dax
+produces results that are isomorphic to those produced by VTK, we also run
+our algorithm using the VTK filter.  The timing results of all these runs
+are summarized in Figure~\ref{fig:Timing}.
 
 First we note that even when Dax is running in serial it outperforms the
 VTK implementation.  Because of the large differences between the
@@ -637,17 +638,16 @@ However, these timings validate the general approach we are talking and
 indicate that our generic programming is a viable alternative to the direct
 memory access and polymorphic object behavior implemented in VTK.
 
-Because the serial and OpenMP device adapters use different algorithms, we
-ran the OpenMP implementation on a single core for comparison purposes.  We
-note that the standard template library implementation is significantly
-faster than the Thrust implementation.  This might indicate an additional
-overhead in the parallel algorithms, or it may indicate that there is room
-for improvement in the Thrust implementation.  When the OpenMP
-implementation is run using all 8 cores of our system, we see a notable
-performance improvement.  We also note that using CUDA to run the threshold
-algorithm on the GPU is much faster than any of the multi-core CPU
-versions.  This time includes loading data from the CPU into the GPU (but
-does not include downloading the results back to the CPU).
+Because the serial, OpenMP, and TBB device adapters use different
+algorithms, we ran the OpenMP and TBB implementations on a single core for
+comparison purposes.  We note that the standard template library
+implementation is faster than the Thrust implementation.  This probably
+indicates an additional overhead in the parallel algorithms.  When the
+OpenMP and TBB implementations are run using all 8 cores of our system, we
+see a notable performance improvement.  We also note that using CUDA to run
+the threshold algorithm on the GPU is much faster than any of the
+multi-core CPU versions.  This time includes loading data from the CPU into
+the GPU and then pulling the results back to the CPU.
 
 \section{Conclusion}
 \label{sec:Conclusion}
