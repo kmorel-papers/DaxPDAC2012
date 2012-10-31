@@ -28,6 +28,6 @@ if [ -f $logfile ] ; then
     exit 1
 fi
 
-echo "Device,Seconds" > $logfile
+echo "Device,Seconds,Trial" > $logfile
 
 dotest
