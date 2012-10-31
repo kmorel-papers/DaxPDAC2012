@@ -177,11 +177,15 @@ int RunPistonCompare(const char *device)
       }
     }
     }
-  catch (dax::cont::Error error)
+  catch (dax::cont::Error &error)
     {
     std::cout << "Caught Dax error: " << std::endl
               << error.GetMessage() << std::endl;
     return 1;
+    }
+  catch (std::exception &error)
+    {
+    std::cout << "Caught standard exception: " << error.what() << std::endl;
     }
   catch (...)
     {
