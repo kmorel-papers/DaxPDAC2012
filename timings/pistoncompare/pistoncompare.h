@@ -116,11 +116,11 @@ static void RunDax(dax::cont::UniformGrid<> &grid,
   std::cout << "Num output cells: " << outGrid.GetNumberOfCells() << std::endl;
 }
 
-static void RunPiston(
-    piston::threshold_geometry<piston_scalar_image3d> &threshold,
-    const char *device,
-    int trial)
+static void RunPiston(piston_scalar_image3d &image,
+                      const char *device,
+                      int trial)
 {
+  piston::threshold_geometry<piston_scalar_image3d> threshold(image, 0.07, 1.0);
 
 #ifdef DAX_CUDA
   cudaEvent_t startEvent;
@@ -170,12 +170,10 @@ int RunPistonCompare(const char *device)
 
     {
     piston_scalar_image3d piston_image(GRID_SIZE, GRID_SIZE, GRID_SIZE, buffer);
-    piston::threshold_geometry<piston_scalar_image3d>
-        piston_threshold(piston_image, 0.07, 1.0);
 
     for (int trial = 0; trial < NUM_TRIALS; trial++)
       {
-      RunPiston(piston_threshold, device, trial);
+      RunPiston(piston_image, device, trial);
       }
     }
     }
