@@ -1,0 +1,19 @@
+Timings from pistoncompare run on my mac desktop: dual Quad-Core Intel
+Xeon processors (8 cores total) and 32 GB of system memory.  NVIDIA Quadro
+4000 with 2 GB of memory.  Snow Leopard version 10.6.8.
+
+pistoncompare SHA: ee07c16f9c85a441d8ac15eaef5c670146ba8abb
+Dax SHA: 83037a4a39efdbde93eadfe9aa7a059ab1158805
+Thrust version: 1.5.2
+CUDA version: 4.2
+PISTON version: 0.4, modified
+
+The PISTON code for these runs has been modified to produce results
+isomorphic with Dax.  The feature of producing only external cells is
+removed, and instead of producing quads of faces with normals produces a
+single hexahedron for each passed cell.
+
+The Dax implementation has also changed slightly.  Some unnecessary
+computation has been removed from the classify.  The runs are slightly
+faster.  The difference is minimal, but these values should be used for the
+the Dax timings.
