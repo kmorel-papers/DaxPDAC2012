@@ -1,0 +1,9 @@
+Timings from pistoncompare run on my mac desktop: dual Quad-Core Intel
+Xeon processors (8 cores total) and 32 GB of system memory.  NVIDIA Quadro
+4000 with 2 GB of memory.  Snow Leopard version 10.6.8.
+
+pistoncompare SHA: 39d45aee89d5c2d14d80c5cb4f30cba0f29216c0 (with minor changes to increase number of trials)
+Dax SHA: d17916b903513f4e6b8f94072e8f28d57e80eda9
+Thrust version: 1.5.2
+CUDA version: 4.2
+PISTON version: 0.4

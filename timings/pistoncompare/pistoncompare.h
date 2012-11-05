@@ -18,7 +18,7 @@
 #include <boost/timer/timer.hpp>
 
 static const int GRID_SIZE = 432;
-static const int NUM_TRIALS = 3;
+static const int NUM_TRIALS = 20;
 
 static dax::cont::UniformGrid<> CreateUniformGrid()
 {
@@ -113,7 +113,7 @@ static void RunDax(dax::cont::UniformGrid<> &grid,
   double time = (timer.elapsed().wall)/1.0e9;
   std::cout << "Dax," << device << "," << time << "," << trial << std::endl;
 
-  std::cout << "Num output cells: " << outGrid.GetNumberOfCells() << std::endl;
+//  std::cout << "Num output cells: " << outGrid.GetNumberOfCells() << std::endl;
 }
 
 static void RunPiston(piston_scalar_image3d &image,
@@ -145,7 +145,7 @@ static void RunPiston(piston_scalar_image3d &image,
   double time = (timer.elapsed().wall)/1.0e9;
   std::cout << "PISTON," << device << "," << time << "," << trial << std::endl;
 
-  std::cout << "Num output cells: " << threshold.valid_cell_indices.size() << std::endl;
+//  std::cout << "Num output cells: " << threshold.valid_cell_indices.size() << std::endl;
 }
 
 int RunPistonCompare(const char *device)

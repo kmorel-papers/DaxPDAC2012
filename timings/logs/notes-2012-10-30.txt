@@ -13,7 +13,7 @@ binary distribution of ParaView 3.14.1.  The ParaView CycleThreshold.py
 script was used to execute 20 runs, the log (pv_log-2012-10-30.txt) was
 saved, and the times were had copied into timings-2012-10-30.csv.
 
-As I observe the times, I realize there is an inconsitency with the VTK
+As I observe the times, I realize there is an inconsistency with the VTK
 times.  The first trial in the VTK times does not correspond to the first
 time the operation was run in that process.  Thus, and library
 "initialization" that occurs in the other series is not recorded in the VTK
