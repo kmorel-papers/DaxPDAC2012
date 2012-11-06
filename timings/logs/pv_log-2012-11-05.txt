@@ -1,0 +1,140 @@
+Execute vtkThreshold id: 4729,  18.8649 seconds
+Threshold::GatherInformation,  0.218356 seconds
+RenderView::Update,  2.66581 seconds
+    vtkPVView::Update,  2.66577 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.6638 seconds
+Still Render,  1.12677 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178103 seconds
+Execute vtkThreshold id: 5123,  19.0309 seconds
+Threshold::GatherInformation,  0.217847 seconds
+RenderView::Update,  2.20905 seconds
+    vtkPVView::Update,  2.209 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.20789 seconds
+Still Render,  1.01351 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178063 seconds
+Execute vtkThreshold id: 5304,  19.7854 seconds
+Threshold::GatherInformation,  0.22864 seconds
+RenderView::Update,  2.04674 seconds
+    vtkPVView::Update,  2.04668 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.0456 seconds
+Still Render,  0.998445 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.17864 seconds
+Execute vtkThreshold id: 5485,  19.0279 seconds
+Threshold::GatherInformation,  0.218565 seconds
+RenderView::Update,  2.04679 seconds
+    vtkPVView::Update,  2.04674 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.04565 seconds
+Still Render,  1.07206 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178695 seconds
+Execute vtkThreshold id: 5666,  20.2167 seconds
+Threshold::GatherInformation,  0.218126 seconds
+RenderView::Update,  2.06614 seconds
+    vtkPVView::Update,  2.06609 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.06498 seconds
+Still Render,  0.991291 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178633 seconds
+Execute vtkThreshold id: 5847,  19.0133 seconds
+Threshold::GatherInformation,  0.219046 seconds
+RenderView::Update,  2.09444 seconds
+    vtkPVView::Update,  2.09439 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.09324 seconds
+Still Render,  1.07596 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178011 seconds
+Execute vtkThreshold id: 6028,  19.0369 seconds
+Threshold::GatherInformation,  0.217774 seconds
+RenderView::Update,  2.009 seconds
+    vtkPVView::Update,  2.00895 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.0078 seconds
+Still Render,  0.99032 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178126 seconds
+Execute vtkThreshold id: 6209,  18.9911 seconds
+Threshold::GatherInformation,  0.217734 seconds
+RenderView::Update,  2.04434 seconds
+    vtkPVView::Update,  2.04429 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.04319 seconds
+Still Render,  1.06973 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178109 seconds
+Execute vtkThreshold id: 6390,  19.1595 seconds
+Threshold::GatherInformation,  0.217484 seconds
+RenderView::Update,  1.9957 seconds
+    vtkPVView::Update,  1.99565 seconds
+        Execute vtkGeometryRepresentationWithFa,  1.99454 seconds
+Still Render,  0.988973 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.177973 seconds
+Execute vtkThreshold id: 6571,  19.116 seconds
+Threshold::GatherInformation,  0.217851 seconds
+RenderView::Update,  2.05108 seconds
+    vtkPVView::Update,  2.05103 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.04994 seconds
+Still Render,  1.0765 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178154 seconds
+Execute vtkThreshold id: 6752,  19.0229 seconds
+Threshold::GatherInformation,  0.217922 seconds
+RenderView::Update,  2.00594 seconds
+    vtkPVView::Update,  2.00589 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.00479 seconds
+Still Render,  0.998164 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178358 seconds
+Execute vtkThreshold id: 6933,  19.0156 seconds
+Threshold::GatherInformation,  0.21771 seconds
+RenderView::Update,  2.06505 seconds
+    vtkPVView::Update,  2.065 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.06388 seconds
+Still Render,  1.07444 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178113 seconds
+Execute vtkThreshold id: 7114,  19.2331 seconds
+Threshold::GatherInformation,  0.218013 seconds
+RenderView::Update,  2.0116 seconds
+    vtkPVView::Update,  2.01154 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.01042 seconds
+Still Render,  0.993208 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.177975 seconds
+Execute vtkThreshold id: 7295,  19.0359 seconds
+Threshold::GatherInformation,  0.218391 seconds
+RenderView::Update,  2.06734 seconds
+    vtkPVView::Update,  2.06729 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.06617 seconds
+Still Render,  1.07203 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178025 seconds
+Execute vtkThreshold id: 7476,  19.1489 seconds
+Threshold::GatherInformation,  0.217989 seconds
+RenderView::Update,  2.01878 seconds
+    vtkPVView::Update,  2.01873 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.01763 seconds
+Still Render,  0.988614 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.177618 seconds
+Execute vtkThreshold id: 7657,  21.1348 seconds
+Threshold::GatherInformation,  0.217866 seconds
+RenderView::Update,  2.05465 seconds
+    vtkPVView::Update,  2.0546 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.05348 seconds
+Still Render,  1.07413 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178332 seconds
+Execute vtkThreshold id: 7838,  19.6587 seconds
+Threshold::GatherInformation,  0.217378 seconds
+RenderView::Update,  1.99981 seconds
+    vtkPVView::Update,  1.99973 seconds
+        Execute vtkGeometryRepresentationWithFa,  1.99858 seconds
+Still Render,  0.993044 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178814 seconds
+Execute vtkThreshold id: 8019,  19.0522 seconds
+Threshold::GatherInformation,  0.217359 seconds
+RenderView::Update,  2.14199 seconds
+    vtkPVView::Update,  2.14194 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.14084 seconds
+Still Render,  1.06833 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.178157 seconds
+Execute vtkThreshold id: 8200,  19.0779 seconds
+Threshold::GatherInformation,  0.218247 seconds
+RenderView::Update,  2.02481 seconds
+    vtkPVView::Update,  2.02476 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.02364 seconds
+Still Render,  0.99149 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.180233 seconds
+Execute vtkThreshold id: 8381,  18.9254 seconds
+Threshold::GatherInformation,  0.226836 seconds
+RenderView::Update,  2.06794 seconds
+    vtkPVView::Update,  2.06789 seconds
+        Execute vtkGeometryRepresentationWithFa,  2.06677 seconds
+Still Render,  1.07503 seconds
+vtkSMRepresentationProxy::GetRepresente,  0.177977 seconds

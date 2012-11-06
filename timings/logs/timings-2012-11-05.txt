@@ -1,0 +1,19 @@
+Timings from thresholdexample run on my mac desktop: dual Quad-Core Intel
+Xeon processors (8 cores total) and 32 GB of system memory.  NVIDIA Quadro
+4000 with 2 GB of memory.  Snow Leopard version 10.6.8.
+
+thresholdexample SHA: 14b6c609ac1156ebe00eadd271f79e8630b88497
+Dax SHA: 83037a4a39efdbde93eadfe9aa7a059ab1158805
+Thrust version: 1.5.2
+CUDA version: 4.2
+TBB version: 4.1-20120718
+
+The exceptions are the VTK timings, which were taken with the Kitware
+binary distribution of ParaView 3.14.1.  The ParaView CycleThreshold.py
+script was used to execute 20 runs, the log (pv_log-2012-11-05.txt) was
+saved, and the times were had copied into timings-2012-11-05.csv.
+
+These timings are similar to the previous ones run but now incorporate some
+fixes to Dax efficiency.  Also, the VTK timings are re-run to make the
+first run do any initialization.  (It did not make a difference.)
+
