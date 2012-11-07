@@ -175,6 +175,15 @@ public:
 //      WriteGradientMagnitude(magnitude);
 //      std::cout << "Data written." << std::endl;
 
+#ifdef DAX_CUDA
+  cudaEvent_t startEvent;
+  cudaEventCreate(&startEvent);
+  cudaEventRecord(startEvent);
+  cudaEventSynchronize(startEvent);
+  cudaEvent_t stopEvent;
+  cudaEventCreate(&stopEvent);
+#endif // DAX_CUDA
+
       std::cout << "Computing Threshold..." << std::endl;
       boost::timer::cpu_timer timer;
       timer.start();
@@ -199,6 +208,13 @@ public:
       // Copy grid information to host, if necessary.
       outGrid.GetCellConnections().GetPortalConstControl();
       outGrid.GetPointCoordinates().GetPortalConstControl();
+
+#ifdef DAX_CUDA
+  // I belive all computation will be synchronized, but to be sure synchronize
+  // an event.
+  cudaEventRecord(stopEvent);
+  cudaEventSynchronize(stopEvent);
+#endif //DAX_CUDA
 
       double time = (timer.elapsed().wall)/1.0e9;
       std::cout << "Time: " << time << " seconds" << std::endl;
