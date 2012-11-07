@@ -1,0 +1,29 @@
+Timings from pistoncompare run on my mac desktop: dual Quad-Core Intel
+Xeon processors (8 cores total) and 32 GB of system memory.  NVIDIA Quadro
+4000 with 2 GB of memory.  Snow Leopard version 10.6.8.
+
+pistoncompare SHA: ee07c16f9c85a441d8ac15eaef5c670146ba8abb
+Dax SHA: 83037a4a39efdbde93eadfe9aa7a059ab1158805
+Thrust version: 1.5.2
+CUDA version: 4.2
+PISTON version: 0.4, (both original and modified)
+
+To make the Dax algorithm more comparable to PISTON, the timing disables
+the computation of finding unused points.
+
+The threshold in PISTON still works a bit different than Dax in that
+instead of outputting hexahedra vertices, it outputs vertices for all 6
+quad faces and the normals for those faces.  In addition, PISTON removes
+"internal" cells (i.e. cells with neighbors on all sides) because they
+cannot be seen during rendering.  This results in 830,055 cells (as opposed
+to the 3,245,512 cells by Dax).
+
+To make the comparisons even more comparable, we ran the algorithm again on
+a modified version of PISTON.  The modification skips the step of removing
+internal cells and also outputs only the 8 vertices of each hexahedron
+rather than the 24 vertices of the six faces and their normals.  The output
+of this modified version of PISTON is isomorphic with that produced in the
+Dax runs.
+
+(This data is a combination of logs pistoncompare-2012-11-5-1.csv and
+pistoncompare-2012-11-5-2.csv.)
