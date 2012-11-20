@@ -195,19 +195,26 @@ public:
 
       dax::cont::Scheduler<DeviceAdapter> scheduler;
 
+      // Run classify algorithm (determine how many cells are passed).
       ClassifyResultType classificationArray;
       scheduler.Invoke(dax::worklet::ThresholdClassify<dax::Scalar>(0.07, 1.0),
                        grid,
                        inArray,
                        classificationArray);
 
+      // Build thresholded topology.
       ScheduleGenerateTopologyType resolveTopology(classificationArray);
       UnstructuredGridType outGrid;
       scheduler.Invoke(resolveTopology, grid, outGrid);
 
+      // Compact scalar array to new topology.
+      ArrayHandleScalar outArray;
+      resolveTopology.CompactPointField(inArray, outArray);
+
       // Copy grid information to host, if necessary.
       outGrid.GetCellConnections().GetPortalConstControl();
       outGrid.GetPointCoordinates().GetPortalConstControl();
+      outArray.GetPortalConstControl();
 
 #ifdef DAX_CUDA
   // I belive all computation will be synchronized, but to be sure synchronize
