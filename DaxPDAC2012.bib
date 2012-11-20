@@ -2,12 +2,28 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2012-09-28 09:58:26 -0600 
+%% Created for kmorel at 2012-11-20 15:46:59 -0700 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@techreport{PISTON,
+	Abstract = {Due to the wide variety of current and next-generation supercomputing architectures, the development of highperformance parallel visualization and analysis operators frequently requires re-writing the underlying algorithms for many different platforms. In order to facilitate portability, we have devised a framework for creating such operators that employs the data-parallel programming model. By writing the operators using only data-parallel primitives (such as scans, transforms, stream compactions, etc.), the same code may be compiled to multiple targets using architecture-specific backend implementations of these primitives. Specifically, we make use of and extend NVIDIA's Thrust library, which provides CUDA and OpenMP backends. Using this framework, we have implemented isosurface, cut surface, and threshold operators, and have achieved good parallel performance on two different architectures (multi-core CPUs and NVIDIA GPUs) using the exact same operator code. We have applied these operators to several large, real scientific data sets, and have open-source released a beta version of our code base.},
+	Annote = {A library providing portable implementations of visualization algorithms on multi- and many-core processors.  Uses Thrust to implement algorithms and portability.  Compares marching cubes isosurface generation to existing implementations by NVIDIA and VTK.
+
+I believe this was presented at EGPGV 2012 and when it becomes available in the proceedings this reference should be updated.
+},
+	Author = {Li-Ta Lo and Chris Sewell and James Ahrens},
+	Date-Added = {2012-11-20 15:46:55 -0700},
+	Date-Modified = {2012-11-20 15:46:55 -0700},
+	Institution = {Los Alamos National Laboratory},
+	Number = {LA-UR-12-10227},
+	Title = {{PISTON}: A Portable Cross-Platform Framework for Data-Parallel Visualization Operators},
+	Url = {http://viz.lanl.gov/projects/PISTON.html},
+	Year = {2012},
+	Bdsk-Url-1 = {http://viz.lanl.gov/projects/PISTON.html}}
 
 @article{Blondin2003,
 	Abstract = {We examine the stability of standing, spherical accretion shocks. Accretion shocks arise in core-collapse supernovae (the focus of this paper), star formation, and accreting white dwarfs and neutron stars. We present a simple analytic model and use time-dependent hydrodynamics simulations to show that this solution is stable to radial perturbations. In two dimensions we show that small perturbations to a spherical shock front can lead to rapid growth of turbulence behind the shock, driven by the injection of vorticity from the now nonspherical shock. We discuss the ramifications this instability may have for the supernova mechanism.},
@@ -21,10 +37,12 @@
 	Note = {{DOI}~10.1086/345812},
 	Number = {2},
 	Pages = {971--980},
-	Title = {Stability of Standing Accretion Shocks, with an Eye toward Core-Collapse Supernovae },
+	Title = {Stability of Standing Accretion Shocks, with an Eye toward Core-Collapse Supernovae},
 	Url = {http://iopscience.iop.org/0004-637X/584/2/971/},
 	Volume = {584},
-	Year = {2003}}
+	Year = {2003},
+	Bdsk-Url-1 = {http://iopscience.iop.org/0004-637X/584/2/971/},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1086/345812}}
 
 @book{Musser1996,
 	Annote = {Refernce book for the C++ STL library.  I have also used this as a reference to generic programming.},
@@ -217,15 +235,15 @@ The book includes the definition of a parallel vector machine; an extensive desc
 @inproceedings{Gregor2006,
 	Author = {Douglas Gregor and Jaakko J\"{a}rvi and Jeremy Siek and Bjarne Stroustrup and Gabriel Dos Reis and Andrew Lumsdaine},
 	Booktitle = {Proceedings of the 21st annual ACM SIGPLAN conference on Object-oriented programming systems, languages, and applications},
-	Series = {OOPSLA '06},
 	Date-Added = {2012-10-01 08:30:00 -0400},
 	Date-Modified = {2012-10-01 08:30:00 -0400},
 	Doi = {10.1145/1167473.1167499},
 	Month = {October},
-	Pages = {291--310},
-	Volume = {41},
 	Number = {10},
+	Pages = {291--310},
+	Series = {OOPSLA '06},
 	Title = {Concepts: linguistic support for generic programming in C++},
 	Url = {http://doi.acm.org/10.1145/1167473.1167499},
+	Volume = {41},
 	Year = {2006},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1145/1167473.1167499}}

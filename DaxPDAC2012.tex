@@ -599,13 +599,6 @@ information intact.
   \label{fig:Supernova}
 \end{figure}
 
-\begin{figure*}
-  \centering
-  \includegraphics{images/ThresholdTiming}
-  \caption{Timing results for threshold operation.}
-  \label{fig:Timing}
-\end{figure*}
-
 Our threshold algorithm in all instances is run on a large regular mesh
 from a supernova simulation made available by John Blondin at the North
 Carolina State University and Anthony Mezzacappa of Oak Ridge National
@@ -630,6 +623,13 @@ produces results that are isomorphic to those produced by VTK, we also run
 our algorithm using the VTK filter.  The timing results of all these runs
 are summarized in Figure~\ref{fig:Timing}.
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics{images/ThresholdTiming}
+  \caption{Timing results for threshold operation.}
+  \label{fig:Timing}
+\end{figure}
+
 First we note that even when Dax is running in serial it outperforms the
 VTK implementation.  Because of the large differences between the
 implementations of these two algorithms as well as the toolkits they are
@@ -648,6 +648,60 @@ see a notable performance improvement.  We also note that using CUDA to run
 the threshold algorithm on the GPU is much faster than any of the
 multi-core CPU versions.  This time includes loading data from the CPU into
 the GPU and then pulling the results back to the CPU.
+
+In addition to comparing the performance of the various device adapters
+available within Dax, we also present a comparison to the similar threshold
+implementation available in the PISTON library\lcite{PISTON}.  Like Dax,
+PISTON provides visualization algorithms that can be run on many threads
+and can be ported between architectures like multi-core CPU and GPU.
+Furthermore, both Dax and PISTON use similar algorithms to achieve this.
+However, whereas PISTON simply implements algorithms on top of the Thrust
+library, Dax implements the added layers of worklets, device adapters,
+array handles, and scheduling metaprograms.  Thus, a comparison of these
+two implementations is a good indication of the overhead incurred from
+these added layers in Dax.  Furthermore, Lo \etal\scite{PISTON} provide
+evidence that PISTON has comparable performance to tuned code in other
+libraries such as parallel VTK and NVIDIA SDK, which makes PISTON a good
+representation for the state of the art.  The results for this experiment
+are summarized in Figure~\ref{fig:PistonCompare}
+
+\begin{figure*}
+  \centering
+  \includegraphics{images/PistonCompareOpenMP}
+  \qquad
+  \includegraphics{images/PistonCompareCUDA}
+  \caption{Comparison of Dax performance to PISTON performance.}
+  \label{fig:PistonCompare}
+\end{figure*}
+
+Although our comparison tests for Dax and PISTON are run using the same
+data set and hardware as before, the details of the algorithm are slightly
+different to facilitate a better comparison.  Whereas Dax provides an
+output isomorphic to VTK in the previous example, the PISTON implementation
+generates a somewhat different output.  The first difference is that PISTON
+does not attempt to find duplicate or remove unused points in the output
+mesh.  Dax has the ability to either perform this point resolution or skip
+it, so although point resolution is included in Figure~\ref{fig:Timing}, it
+is not included in Figure~\ref{fig:PistonCompare}.  Also, the PISTON
+threshold implementation is optimized to send its output directly to OpenGL
+for rendering.  Thus, it adds an extra step of removing any interior cells
+that cannot be ``seen'' and providing arrays containing vertex and normal
+information for the quadrilateral faces of the cells.  These vertex and
+normal arrays tend to be much larger than the list of hexahedra indices
+provided by Dax.  So although we providing timing for the original
+algorithm implemented in PISTON, we also provide timing for a slightly
+modified PISTON algorithm that outputs the same hexahedra indices as Dax.
+
+Examining the results in Figure~\ref{fig:PistonCompare}, we note that the
+original PISTON is slower than the others by a small margin; however, this
+is principally from the fact that this version of threshold is generating
+larger arrays that are better suited for rendering.  A more interesting
+comparison is between Dax and the modified version of PISTON.  Our timings
+for OpenMP, shown in the left side of Figure~\ref{fig:PistonCompare}, are
+roughly equivalent for the two algorithms.  Our timings on a GPU, shown in
+the right side of Figure~\ref{fig:PistonCompare}, show a marginal
+improvement with the modified PISTON, but otherwise very similar
+performance.
 
 \section{Conclusion}
 \label{sec:Conclusion}
