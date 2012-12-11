@@ -2,6 +2,7 @@
 // Sets thrust backend if using a thrust device adapter
 #include <dax/cont/DeviceAdapter.h>
 
+#include <dax/CellTag.h>
 #include <dax/cont/ArrayHandle.h>
 #include <dax/cont/Scheduler.h>
 #include <dax/cont/ScheduleGenerateTopology.h>
@@ -100,7 +101,7 @@ static void RunDax(dax::cont::UniformGrid<> &grid,
 
   ScheduleGenerateTopologyType resolveTopology(classificationArray);
   resolveTopology.SetRemoveDuplicatePoints(false);
-  dax::cont::UnstructuredGrid<dax::exec::CellHexahedron> outGrid;
+  dax::cont::UnstructuredGrid<dax::CellTagHexahedron> outGrid;
   scheduler.Invoke(resolveTopology, grid, outGrid);
 
 #ifdef DAX_CUDA

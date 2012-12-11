@@ -6,6 +6,8 @@
 
 #include <vector>
 
+#include <dax/CellTag.h>
+#include <dax/CellTraits.h>
 #include <dax/cont/ArrayContainerControlBasic.h>
 #include <dax/cont/ArrayHandle.h>
 #include <dax/cont/DeviceAdapter.h>
@@ -33,7 +35,7 @@ private:
 
   typedef dax::cont::UniformGrid<DeviceAdapter> UniformGridType;
   typedef dax::cont::UnstructuredGrid<
-      dax::exec::CellHexahedron,Container,Container,DeviceAdapter>
+      dax::CellTagHexahedron,Container,Container,DeviceAdapter>
       UnstructuredGridType;
 
   typedef dax::cont::ArrayHandle<
@@ -113,16 +115,19 @@ private:
       stream << std::endl;
       }
 
+    const int NUM_VERTICES =
+        dax::CellTraits<dax::CellTagHexahedron>::NUM_VERTICES;
     //print cells
-    stream << "CELLS " << num_cells << " " << num_cells  * (dax::exec::CellHexahedron::NUM_POINTS+1) << std::endl;
+    stream << "CELLS " << num_cells << " " << num_cells * (NUM_VERTICES+1)
+           << std::endl;
 
-    std::vector<dax::Id> contTopo(num_cells*dax::exec::CellHexahedron::NUM_POINTS);
+    std::vector<dax::Id> contTopo(num_cells*NUM_VERTICES);
     grid.GetCellConnections().CopyInto(contTopo.begin());
 
     dax::Id index=0;
     for(dax::Id i=0; i < num_cells; ++i,index+=8)
       {
-      stream << dax::exec::CellHexahedron::NUM_POINTS << " ";
+      stream << NUM_VERTICES << " ";
       stream << contTopo[index+0] << " ";
       stream << contTopo[index+1] << " ";
       stream << contTopo[index+2] << " ";
