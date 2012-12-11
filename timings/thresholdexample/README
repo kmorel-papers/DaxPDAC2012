@@ -1,0 +1,7 @@
+This directory contains a simple example to run timings that were presented
+in the paper "Flexible Analysis Software for Emerging Architectures"
+(Figure 5).  The program is configured with CMake.
+
+In the build directory, a script named runtests.sh will be placed, which
+provides a convienient way to run through all the tests that were performed
+for the paper.

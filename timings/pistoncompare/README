@@ -1,0 +1,8 @@
+This directory contains a simple example to run timings that were presented
+in the paper "Flexible Analysis Software for Emerging Architectures"
+(Figure 6).  The program is configured with CMake.
+
+The paper also providing timings for a modified PISTON.  In this directory
+contains a file called piston-threshold_geometry.h.  This is a replacement
+for the file threshold_geometry.h in the PISTON source code that contains
+the modification used in the paper.
